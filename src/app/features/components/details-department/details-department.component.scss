@@ -1,0 +1,34 @@
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  // margin-top: 30px;
+  justify-content: space-around;
+
+  svg {
+    height: 30%;
+    align-self: center;
+    fill: none;
+    stroke: var(--grey_heigh_contrast_text);
+    stroke-width: .4px;
+  }
+
+  .title {
+    display: flex;
+    font-size: larger;
+    gap: 10px;
+    color: var(--grey_heigh_contrast_text);
+    p {
+      margin: 0;
+    }
+  }
+
+  .temperatures {
+    display: flex;
+    justify-content: space-between;
+    .temperature {
+      display: flex;
+      gap: 5px;
+    }
+  }
+}

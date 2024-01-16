@@ -1,0 +1,149 @@
+* {
+  box-sizing: border-box;
+  font-family: 'KoHo', sans-serif;
+}
+
+:root {
+  // colors
+  --app_background: #FCFCFC;
+  --subtle_background: #F9F9F9;
+  --solid_backgrounds: #F76B15;
+  --subtle_borders: #FFC182;
+
+
+  // grey
+  --grey_app_background: #FCFCFC;
+  --grey_subtle_borders_separators: #D9D9D9;
+  --grey_hovered_ui_element: #E8E8E8;
+  --grey_solid_backgrounds: #8D8D8D;
+  --grey_hovered_solid_backgrounds: #838383;
+  --grey_low_contrast_text: #646464;
+  --grey_heigh_contrast_text: #202020;
+
+  // panel
+  --padding_panel: 20px;
+  --box_shadow_panel: 0px 4px 26px 0px rgba(0, 0, 0, 0.05);
+  --border_box_panel: 5px;
+}
+
+p {
+  color: var(--grey_low_contrast_text);
+}
+
+body {
+  background-color: var(--subtle_background);
+  margin: 0;
+}
+
+.body_container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+}
+
+::-webkit-scrollbar {
+  width: 1vh;
+  height: 1vh;
+}
+::-webkit-scrollbar-track {
+  background: var(--grey_subtle_borders_separators);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: var(--grey_solid_backgrounds);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(grey_hovered_solid_backgrounds);
+}
+
+.menu {
+  height: 100%;
+  width: 200px;
+}
+
+.app_container {
+  height: 100%;
+  width: 100%;
+  padding: 5px;
+
+  .control_container {
+    height: 10%;
+    padding: 10px;
+  }
+
+  .panels_container {
+    height: 90%;
+    display: flex;
+    flex-wrap: wrap;
+
+    .department_detail_panel {
+      // border: solid 1px rgb(255, 0, 0);
+      flex: 4 0 260px;
+      height: 70%;
+      padding: 10px;
+    }
+
+    .map_france_panel {
+      // border: solid 1px black;
+      flex: 1 0 45%;
+      padding: 10px;
+    }
+
+    .list_departments_panel {
+      // border: solid 1px rgb(13, 0, 255);
+      flex: 4 0 260px;
+      padding: 10px;
+    }
+
+    .courbe_panel {
+      // border: solid 1px black;
+      flex: 1 0 45%;
+      height: 30%;
+      padding: 10px;
+    }
+  }
+
+  .panel_container {
+    border: solid 1px var(--grey_subtle_borders_separators);
+    background: var(--app_background);
+    padding: var(--padding_panel);
+    box-shadow: var(--box_shadow_panel);
+    border-radius: var(--border_box_panel);
+    height: 100%;
+    width: 100%;
+    position: relative;
+  }
+  //TODO: mettre en classe générique
+  .flex_centered {
+    display: flex;
+    justify-content: center;
+  }
+
+}
+
+
+@media screen and (max-width: 600px) {
+  .app_container {
+    .panels_container {
+      .department_detail_panel {
+        height: auto;
+        flex: 1 0 100%;
+      }
+
+      .map_france_panel {
+        // border: solid 1px black;
+        flex: 1 0 100%;
+      }
+
+      .list_departments_panel {
+        flex: 1 0 100%;
+      }
+
+      .courbe_panel {
+        height: auto;
+        flex: 1 0 100%;
+      }
+    }
+  }
+}

@@ -1,0 +1,56 @@
+$border_radius_row: 3px;
+$transition_hover_selected: .2s;
+
+.container {
+  height: calc(100% - 2*var(--padding_panel));
+  width: calc(100% - 2*var(--padding_panel));
+  overflow-x: hidden;
+  position: absolute;
+  table {
+    width: calc(100% - 10px);
+    border-collapse: collapse;
+    tr {
+      text-align: left;
+      th {
+        padding: 10px;
+        color: var(--grey_heigh_contrast_text);
+        border-bottom: solid 1px var(--grey_subtle_borders_separators);
+        position: sticky;
+        top: 0;
+        background-color: var(--app_background);
+      }
+      td {
+        cursor: pointer;
+        padding: 10px;
+        color: var(--grey_low_contrast_text);
+        border-bottom: solid 1px var(--grey_subtle_borders_separators);
+
+        &:last-child {
+          border-top-right-radius: $border_radius_row;
+          border-bottom-right-radius: $border_radius_row;
+        }
+        &:first-child {
+          border-top-left-radius: $border_radius_row;
+          border-bottom-left-radius: $border_radius_row;
+        }
+      }
+
+      &:last-child td {
+        border-bottom: none;
+      }
+    }
+
+    .selected {
+      background-color: var(--solid_backgrounds);
+      td {
+        color: var(--app_background);
+      }
+      transition: $transition_hover_selected;
+    }
+
+    tbody tr:not(.selected):hover {
+      background-color: var(--grey_hovered_ui_element);
+      transition: $transition_hover_selected;
+    }
+  }
+}

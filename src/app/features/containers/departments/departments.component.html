@@ -1,0 +1,21 @@
+<div class="department_detail_panel">
+  <div class="panel_container">
+    <app-details-department [department]="selectedDepartment$ | async" [temperature]="selectedDepartmentTemperature$ | async">
+    </app-details-department>
+  </div>
+</div>
+<div class="map_france_panel">
+  <div class="panel_container flex_centered">
+    <app-svg-departments [departments]="departments$ | async" [selectedDepartment]="selectedDepartment$ | async"
+      (departmentEmitter)="selectDepartment($event)"></app-svg-departments>
+  </div>
+</div>
+<div class="list_departments_panel">
+  <div class="panel_container">
+    <app-list-departments [departments]="departments$ | async" [selectedDepartment]="selectedDepartment$ | async"
+      (departmentEmitter)="selectDepartment($event)"></app-list-departments>
+  </div>
+</div>
+<div class="courbe_panel">
+  <div class="panel_container"></div>
+</div>
