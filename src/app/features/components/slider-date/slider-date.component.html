@@ -1,0 +1,2 @@
+<input #rangeInput type="range" [min]="minTimestamp" [max]="maxTimestamp" [step]="stapeTimestamp" (input)="onDateChange()" [value]="initialValue">
+{{ rangeInput.value | date: 'dd/MM/yyyy'  }}

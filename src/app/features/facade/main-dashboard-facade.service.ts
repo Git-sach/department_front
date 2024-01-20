@@ -4,7 +4,7 @@ import { DepartmentsStateService } from '../states/departments-state.service';
 import { Department } from 'src/app/shared/interfaces/department.interface';
 import { TemperatureDepartmentsService } from 'src/app/shared/services/api/temperature-departments.service';
 import { TemperatureDepartmentsStateService } from '../states/temperature-departments-state.service';
-import { Observable, combineLatest, filter, map, switchMap, tap } from 'rxjs';
+import { Observable, combineLatest, filter, map, switchMap, tap, throttleTime } from 'rxjs';
 import { TemperatureDepartment } from 'src/app/shared/interfaces/temperatureDepartment';
 import { DateSelectionStateService } from '../states/date-selection-state.service';
 
@@ -118,7 +118,7 @@ export class MainDashboardFacadeService {
    * @returns Un Observable émettant la date sélectionnée.
    */
   getSelectedDate$(): Observable<Date> {
-    return this.dateSelectionState.getSelectedDate$();
+    return this.dateSelectionState.getSelectedDate$().pipe(throttleTime(1000));
   }
 
   /**

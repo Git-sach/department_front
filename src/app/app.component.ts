@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MainDashboardComponent } from './features/containers/main-dashboard/main-dashboard.component';
+import { SliderDateComponent } from './features/components/slider-date/slider-date.component';
 
 @Component({
   selector: 'app-root',
@@ -9,5 +10,4 @@ import { MainDashboardComponent } from './features/containers/main-dashboard/mai
   standalone: true
 })
 export class AppComponent {
-  title = 'dep_temperatures';
 }

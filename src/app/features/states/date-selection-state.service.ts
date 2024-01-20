@@ -6,7 +6,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class DateSelectionStateService {
 
-  private selectedDate$ = new BehaviorSubject<Date>(new Date('01-02-2023'));
+  private selectedDate$ = new BehaviorSubject<Date>(new Date('01-01-2023'));
 
   getSelectedDate$(): Observable<Date> {
     return this.selectedDate$.asObservable();

@@ -45,14 +45,17 @@ body {
   width: 1vh;
   height: 1vh;
 }
+
 ::-webkit-scrollbar-track {
   background: var(--grey_subtle_borders_separators);
   border-radius: 10px;
 }
+
 ::-webkit-scrollbar-thumb {
   border-radius: 10px;
   background: var(--grey_solid_backgrounds);
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: var(grey_hovered_solid_backgrounds);
 }
@@ -67,40 +70,43 @@ body {
   width: 100%;
   padding: 5px;
 
-  .control_container {
-    height: 10%;
-    padding: 10px;
-  }
+  .main_dashboard_container {
 
-  .panels_container {
-    height: 90%;
-    display: flex;
-    flex-wrap: wrap;
-
-    .department_detail_panel {
-      // border: solid 1px rgb(255, 0, 0);
-      flex: 4 0 260px;
-      height: 70%;
+    .control_container {
+      height: 10%;
       padding: 10px;
     }
 
-    .map_france_panel {
-      // border: solid 1px black;
-      flex: 1 0 45%;
-      padding: 10px;
-    }
+    .panels_container {
+      height: 90%;
+      display: flex;
+      flex-wrap: wrap;
 
-    .list_departments_panel {
-      // border: solid 1px rgb(13, 0, 255);
-      flex: 4 0 260px;
-      padding: 10px;
-    }
+      .department_detail_panel {
+        // border: solid 1px rgb(255, 0, 0);
+        flex: 4 0 260px;
+        height: 70%;
+        padding: 10px;
+      }
 
-    .courbe_panel {
-      // border: solid 1px black;
-      flex: 1 0 45%;
-      height: 30%;
-      padding: 10px;
+      .map_france_panel {
+        // border: solid 1px black;
+        flex: 1 0 45%;
+        padding: 10px;
+      }
+
+      .list_departments_panel {
+        // border: solid 1px rgb(13, 0, 255);
+        flex: 4 0 260px;
+        padding: 10px;
+      }
+
+      .courbe_panel {
+        // border: solid 1px black;
+        flex: 1 0 45%;
+        height: 30%;
+        padding: 10px;
+      }
     }
   }
 
@@ -114,6 +120,7 @@ body {
     width: 100%;
     position: relative;
   }
+
   //TODO: mettre en classe générique
   .flex_centered {
     display: flex;

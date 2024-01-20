@@ -7,11 +7,12 @@ import { Department } from 'src/app/shared/interfaces/department.interface';
 import { ListDepartmentsComponent } from '../../components/list-departments/list-departments.component';
 import { DetailsDepartmentComponent } from '../../components/details-department/details-department.component';
 import { TemperatureDepartment } from 'src/app/shared/interfaces/temperatureDepartment';
+import { SliderDateComponent } from '../../components/slider-date/slider-date.component';
 
 @Component({
   selector: 'app-main-dashboard',
   standalone: true,
-  imports: [CommonModule, SvgDepartmentsComponent, ListDepartmentsComponent, DetailsDepartmentComponent],
+  imports: [CommonModule, SvgDepartmentsComponent, ListDepartmentsComponent, DetailsDepartmentComponent, SliderDateComponent],
   templateUrl: './main-dashboard.component.html',
   styleUrls: ['./main-dashboard.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -35,11 +36,6 @@ export class MainDashboardComponent implements OnInit, OnDestroy {
     this.selectedDepartmentTemperature$ = this.mainDashboardFacade.getSelectedDepartmentTemperatureForSelectedDate$();
   }
 
-  //marche pas car cercle vissieux avec la date qui change avant que les température pour cette date ne soient chargés
-  changeDateProvisoire() {
-    this.selectDate(new Date('2018-02-01'));
-  }
-
   ngOnInit(): void {
     this.mainDashboardFacade.loadDepartments();
     this.loadTemperaturesSubscription = this.mainDashboardFacade.loadTemperaturesForSelectedDateIfNotLoaded().subscribe();
@@ -52,6 +48,8 @@ export class MainDashboardComponent implements OnInit, OnDestroy {
   }
 
   selectDate(date: Date): void {
+    console.log(date);
+
     this.mainDashboardFacade.setSelectedDate(date);
   }
 
