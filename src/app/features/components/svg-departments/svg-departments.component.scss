@@ -5,7 +5,7 @@ $transition_hover_selected: .2s;
   svg {
     height: 100%;
     fill: transparent;
-    stroke: var(--grey_heigh_contrast_text);
+    stroke: var(--heigh_contrast_text);
     stroke-width: .4px;
     cursor: pointer;
     path.selected, path:hover {

@@ -2,7 +2,7 @@
   <svg viewBox="0 0 612.3844 584.36005">
     <g>
       <path *ngFor="let department of departments" [ngClass]="selectedDepartment === department ? 'selected' : ''"
-        [attr.d]="department.svg_path" (click)="selectDepartment(department)" />
+        [attr.d]="department.svg_path" (click)="selectDepartment(department)" [ngStyle]="{fill: department.color}" />
     </g>
   </svg>
 </div>

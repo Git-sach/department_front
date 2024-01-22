@@ -4,5 +4,6 @@ export interface TemperatureDepartment {
   departement: string,
   tmin: number,
   tmax: number,
-  tmoy: number
+  tmoy: number,
+  color?: string
 }

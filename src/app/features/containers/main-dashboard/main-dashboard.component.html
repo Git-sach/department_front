@@ -4,13 +4,15 @@
 <div class="panels_container">
   <div class="department_detail_panel">
     <div class="panel_container">
-      <app-details-department [department]="selectedDepartment$ | async" [temperature]="selectedDepartmentTemperature$ | async">
+      <app-details-department [department]="selectedDepartment$ | async"
+        [temperature]="selectedDepartmentTemperature$ | async">
       </app-details-department>
     </div>
   </div>
   <div class="map_france_panel">
     <div class="panel_container flex_centered">
       <app-svg-departments [departments]="departments$ | async" [selectedDepartment]="selectedDepartment$ | async"
+        [temperatures]="departmentTemperatures$ | async"
         (departmentEmitter)="selectDepartment($event)"></app-svg-departments>
     </div>
   </div>
