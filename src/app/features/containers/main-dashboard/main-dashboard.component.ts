@@ -48,8 +48,6 @@ export class MainDashboardComponent implements OnInit, OnDestroy {
   }
 
   selectDate(date: Date): void {
-    console.log(date);
-
     this.mainDashboardFacade.setSelectedDate(date);
   }
 

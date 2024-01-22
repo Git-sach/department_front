@@ -1,2 +1,9 @@
-<input #rangeInput type="range" [min]="minTimestamp" [max]="maxTimestamp" [step]="stapeTimestamp" (input)="onDateChange()" [value]="initialValue">
-{{ rangeInput.value | date: 'dd/MM/yyyy'  }}
+<input #rangeInput type="range" [min]="minTimestamp" [max]="maxTimestamp" [step]="stapeTimestamp"
+  (change)="onDateChange()" (input)="forDetectChange()" [value]="initialValue">
+{{ rangeInput.value | date: 'dd/MM/yyyy' }}
+
+<!-- l'event change retourne une valeure lorsque l'utilisateur a relâché le bouton de la souris-->
+<!-- l'événement input est déclenché chaque fois que la valeur de l'élément de l'input change-->
+
+<!-- Pour la mise à joure de l'affichage de la date on utilise alors l'input avec aucune acctions.
+  Pour que Angular déclanche le detect change -->
