@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, filter, map, tap } from 'rxjs';
+import { BehaviorSubject, Observable, filter, map } from 'rxjs';
 import { TemperatureDepartment } from 'src/app/shared/interfaces/temperatureDepartment';
 import { TemperatureDepartmentsStorage } from 'src/app/shared/interfaces/temperatureDepartmentsStorage';
 
@@ -18,8 +18,8 @@ export class TemperatureDepartmentsStateService {
    */
   getTemperatureDepartmentsForDate$(date: Date): Observable<TemperatureDepartment[]> {
     return this.temperatureDepartments$.pipe(
-      filter(temperatureDepartments => Object.keys(temperatureDepartments).length > 0),
-      map(temperatureDepartments => temperatureDepartments[this.getDateFormatted(date)])
+      filter(temperatureDepartments => Object.keys(temperatureDepartments).length > 0 ),
+      map(temperatureDepartments => temperatureDepartments[this.getDateFormatted(date)]),
     );
   }
 

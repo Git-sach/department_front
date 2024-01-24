@@ -109,7 +109,8 @@ export class MainDashboardFacadeService {
         return this.temperatureDepartmentsState.getTemperatureDepartmentsForDate$(
           date
         );
-      })
+      }),
+      filter((temperatureDepartments) => temperatureDepartments !== undefined)
     );
   }
 
@@ -123,12 +124,11 @@ export class MainDashboardFacadeService {
       departmentTemperatures: this.getTemperatureDepartmentsForSelectedDate$(),
       selectedDepartment: this.getSelectedDepartment$(),
     }).pipe(
-      filter((x) => x.departmentTemperatures !== undefined),
       map(({ departmentTemperatures, selectedDepartment }) => {
-        return departmentTemperatures.filter(
+        return departmentTemperatures.find(
           (TDepartment) =>
             TDepartment.code_insee_departement === selectedDepartment?.code
-        )[0];
+        )!;
       })
     );
   }
@@ -149,5 +149,34 @@ export class MainDashboardFacadeService {
    */
   setSelectedDate(date: Date): void {
     this.dateSelectionState.setSelectedDate(date);
+  }
+
+  /**
+   * Obtient un Observable de departements avec les températures moyennes pour la date sélectionnée.
+   * Combinant les informations des départements et des températures moy
+   *
+   * @returns Un observable émettant la liste des départements avec les températures moyennes.
+   */
+  getDepartmentsWichTemperatureMoyForSelectedDate$(): Observable<Department[]> {
+    const departments$ = this.getDepartments$();
+    const temperatures$ = this.getTemperatureDepartmentsForSelectedDate$();
+
+    return combineLatest([departments$, temperatures$]).pipe(
+      map(([departments, temperatures]) => {
+        let departmentsCopy: Department[] = JSON.parse(
+          JSON.stringify(departments)
+        );
+
+        departmentsCopy.map((department) => {
+          const temperatureDepartment = temperatures.find(
+            (temperatureDepartment) =>
+              temperatureDepartment.code_insee_departement === department.code
+          );
+          department.tMoy = temperatureDepartment!.tmoy;
+        });
+
+        return departmentsCopy;
+      })
+    );
   }
 }

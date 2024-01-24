@@ -9,4 +9,5 @@ export interface Department {
   viewBox10: number | null;
   viewBox11: number | null;
   color?: string;
+  tMoy?: number
 }

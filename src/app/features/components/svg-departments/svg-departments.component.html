@@ -1,9 +1,12 @@
+
 <div class="container">
   <svg viewBox="0 0 612.3844 584.36005">
     <g>
       <path
-        *ngFor="let department of departments"
-        [ngClass]="selectedDepartment === department ? 'selected' : ''"
+        *ngFor="let department of departmentWichColors"
+        [ngClass]="
+          selectedDepartment!.code === department.code ? 'selected' : ''
+        "
         [attr.d]="department.svg_path"
         (click)="selectDepartment(department)"
         [ngStyle]="{ fill: department.color }"

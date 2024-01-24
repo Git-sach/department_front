@@ -5,5 +5,4 @@ export interface TemperatureDepartment {
   tmin: number,
   tmax: number,
   tmoy: number,
-  color?: string
 }

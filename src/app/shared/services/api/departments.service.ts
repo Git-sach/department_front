@@ -1076,7 +1076,7 @@ export class DepartmentsService {
         "viewBox10": null,
         "viewBox11": null
       }
-    ]).pipe(delay(2000));
+    ]).pipe(delay(0));
   };
 
 }

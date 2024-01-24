@@ -7,7 +7,6 @@ import {
   Output,
 } from '@angular/core';
 import { Department } from 'src/app/shared/interfaces/department.interface';
-import { TemperatureDepartment } from 'src/app/shared/interfaces/temperatureDepartment';
 import { Color } from 'src/app/shared/valueObjects/color';
 
 @Component({
@@ -19,32 +18,17 @@ import { Color } from 'src/app/shared/valueObjects/color';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SvgDepartmentsComponent {
-  @Input({ required: true }) departments: Department[] | null = [];
-  @Input({ required: true }) selectedDepartment: Department | null = null;
   @Input({ required: true })
-  set temperatures(temperatures: TemperatureDepartment[] | null) {
-    if (temperatures) {
-      const tMax = this.getTemperatureMaxOfDepartments(temperatures);
-      const tMin = this.getTemperatureMinOfDepartments(temperatures);
-
-      temperatures.map((temperature) => {
-        const indexOfGradientColor = this.findNumericValueOfAnalogData(
-          temperature.tmoy,
-          tMax,
-          tMin,
-          this.numberOfColorsInGradient
-        );
-        const color = `#${this.gradientOfColor[indexOfGradientColor].valueHexa}`;
-
-        const department = this.departments?.find(
-          (department) => department.code === temperature.code_insee_departement
-        );
-
-        department!.color = color;
-      });
+  set departmentsWichTMoy(departments: Department[] | null) {
+    if (departments) {
+      this.departmentWichColors = this.setColorToDepartments(departments);
     }
   }
+
+  @Input({ required: true }) selectedDepartment: Department | null = null;
   @Output() departmentEmitter = new EventEmitter<Department>();
+
+  departmentWichColors: Department[] = [];
 
   private numberOfColorsInGradient = 200;
   private negativeColor = new Color('4F2206');
@@ -58,16 +42,46 @@ export class SvgDepartmentsComponent {
     this.departmentEmitter.emit(department);
   }
 
-  getTemperatureMinOfDepartments(temperature: TemperatureDepartment[]): number {
-    return temperature.reduce((acc, current) =>
-      current.tmoy < acc.tmoy ? current : acc
-    ).tmoy!;
+  getTemperatureMinOfDepartments(department: Department[]): number {
+    return department.reduce((acc, current) =>
+      current.tMoy! < acc.tMoy! ? current : acc
+    ).tMoy!;
   }
 
-  getTemperatureMaxOfDepartments(temperature: TemperatureDepartment[]): number {
-    return temperature.reduce((acc, current) =>
-      current.tmoy > acc.tmoy ? current : acc
-    ).tmoy!;
+  getTemperatureMaxOfDepartments(department: Department[]): number {
+    return department.reduce((acc, current) =>
+      current.tMoy! > acc.tMoy! ? current : acc
+    ).tMoy!;
+  }
+
+  /**
+   * Applique des couleurs à une liste de départements en fonction de leurs températures moyennes.
+   * Les couleurs sont déterminées en utilisant une échelle de couleur définie par un gradient.
+   *
+   * @param departments La liste des départements à laquelle appliquer les couleurs.
+   * @returns Une nouvelle liste de départements avec les couleurs attribuées.
+   */
+  setColorToDepartments(departments: Department[]): Department[] {
+    const tMax = this.getTemperatureMaxOfDepartments(departments);
+    const tMin = this.getTemperatureMinOfDepartments(departments);
+
+    let departmentsCopy: Department[] = JSON.parse(JSON.stringify(departments));
+
+    departmentsCopy.map((department) => {
+      const indexOfGradientColor = this.findNumericValueOfAnalogData(
+        department.tMoy!,
+        tMax,
+        tMin,
+        this.numberOfColorsInGradient
+      );
+      const color = `#${this.gradientOfColor[indexOfGradientColor].valueHexa}`;
+
+      department.color = color;
+
+      this.departmentWichColors = departmentsCopy;
+    });
+
+    return departmentsCopy;
   }
 
   /**

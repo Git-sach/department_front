@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, filter } from 'rxjs';
 import { Department } from 'src/app/shared/interfaces/department.interface';
 
 @Injectable({
@@ -15,7 +15,7 @@ export class DepartmentsStateService {
   };
 
   getDepartments$(): Observable<Department[]> {
-    return this.departments$.asObservable();
+    return this.departments$.pipe(filter((departments) => departments.length > 0));
   }
 
   getSelectedDepatment$(): Observable<Department | null> {
