@@ -1,6 +1,5 @@
 export class Color {
-
-  private readonly _value: string
+  private readonly _value: string;
 
   constructor(hexaValue: string) {
     this._value = hexaValue;
@@ -28,11 +27,10 @@ export class Color {
 
   private decimalToHexa = function (number: number) {
     let numberString = number.toString(16);
-    return (numberString.length === 1) ? '0' + numberString : numberString;
+    return numberString.length === 1 ? '0' + numberString : numberString;
   };
 
-
- /**
+  /**
    * Permet de créer un gradiant de couleurs avec une autre conleur.
    * La valeure retournée est un tableau avec:
    *  -> en première valeur, la couleure 'faible'
@@ -46,30 +44,62 @@ export class Color {
    * @returns le tableau de Couleur
    */
   public creatGradient(color: Color, numberOfColors: number = 1): Color[] {
+    const rMin =
+      this._value < color._value
+        ? this.redCompositionDecimal
+        : color.redCompositionDecimal;
 
-    const rMin = this._value<color._value ? this.redCompositionDecimal : color.redCompositionDecimal;
-    const gMin = this._value<color._value ? this.greenCompositionDecimal : color.greenCompositionDecimal;
-    const bMin = this._value<color._value ? this.blueCompositionDecimal : color.blueCompositionDecimal;
+    const gMin =
+      this._value < color._value
+        ? this.greenCompositionDecimal
+        : color.greenCompositionDecimal;
 
-    const rMax = this._value<color._value ? color.redCompositionDecimal : this.redCompositionDecimal;
-    const gMax = this._value<color._value ? color.greenCompositionDecimal : this.greenCompositionDecimal;
-    const bMax = this._value<color._value ? color.blueCompositionDecimal : this.blueCompositionDecimal;
+    const bMin =
+      this._value < color._value
+        ? this.blueCompositionDecimal
+        : color.blueCompositionDecimal;
+
+    const rMax =
+      this._value < color._value
+        ? color.redCompositionDecimal
+        : this.redCompositionDecimal;
+
+    const gMax =
+      this._value < color._value
+        ? color.greenCompositionDecimal
+        : this.greenCompositionDecimal;
+
+    const bMax =
+      this._value < color._value
+        ? color.blueCompositionDecimal
+        : this.blueCompositionDecimal;
 
     let gradient: Color[] = [];
 
-    this._value<color._value ? gradient.push(this) : gradient.push(color);
+    this._value < color._value ? gradient.push(this) : gradient.push(color);
 
-    for(let i=0; i<numberOfColors; i++) {
-      const r = Math.round(((rMax - rMin)/(numberOfColors+1))*(i+1) + rMin);
-      const g = Math.round(((gMax - gMin)/(numberOfColors+1))*(i+1) + gMin);
-      const b = Math.round(((bMax - bMin)/(numberOfColors+1))*(i+1) + bMin);
+    for (let i = 0; i < numberOfColors - 2; i++) {
+      const r = Math.round(
+        ((rMax - rMin) / (numberOfColors + 1)) * (i + 1) + rMin
+      );
+      const g = Math.round(
+        ((gMax - gMin) / (numberOfColors + 1)) * (i + 1) + gMin
+      );
+      const b = Math.round(
+        ((bMax - bMin) / (numberOfColors + 1)) * (i + 1) + bMin
+      );
 
-      gradient.push(new Color(`${this.decimalToHexa(r)}${this.decimalToHexa(g)}${this.decimalToHexa(b)}`));
+      gradient.push(
+        new Color(
+          `${this.decimalToHexa(r)}${this.decimalToHexa(g)}${this.decimalToHexa(
+            b
+          )}`
+        )
+      );
     }
 
-    this._value<color._value ? gradient.push(color) : gradient.push(this);
+    this._value < color._value ? gradient.push(color) : gradient.push(this);
 
     return gradient;
   }
-
 }

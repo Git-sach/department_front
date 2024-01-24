@@ -1,6 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http'
-import { Observable, of } from 'rxjs';
+import { Observable, delay, of } from 'rxjs';
 import { Department } from '../../interfaces/department.interface';
 
 @Injectable({
@@ -1076,7 +1076,7 @@ export class DepartmentsService {
         "viewBox10": null,
         "viewBox11": null
       }
-    ]);
+    ]).pipe(delay(2000));
   };
 
 }

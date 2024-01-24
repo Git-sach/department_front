@@ -1,15 +1,15 @@
 import { Injectable, inject } from '@angular/core';
-import { DepartmentsService } from 'src/app/shared/services/api/departments.service';
-import { DepartmentsStateService } from '../states/departments-state.service';
+import { Observable, combineLatest, filter, map, switchMap } from 'rxjs';
 import { Department } from 'src/app/shared/interfaces/department.interface';
-import { TemperatureDepartmentsService } from 'src/app/shared/services/api/temperature-departments.service';
-import { TemperatureDepartmentsStateService } from '../states/temperature-departments-state.service';
-import { Observable, combineLatest, filter, map, switchMap, tap, throttleTime } from 'rxjs';
 import { TemperatureDepartment } from 'src/app/shared/interfaces/temperatureDepartment';
+import { DepartmentsService } from 'src/app/shared/services/api/departments.service';
+import { TemperatureDepartmentsService } from 'src/app/shared/services/api/temperature-departments.service';
 import { DateSelectionStateService } from '../states/date-selection-state.service';
+import { DepartmentsStateService } from '../states/departments-state.service';
+import { TemperatureDepartmentsStateService } from '../states/temperature-departments-state.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class MainDashboardFacadeService {
   //TODO: Faire deux classes distincles et faire hériter cette classe des deux autres ??
@@ -26,9 +26,12 @@ export class MainDashboardFacadeService {
    * Charge la liste complète des départements depuis l'API et met à jour le state des départements.
    */
   loadDepartments(): void {
-    this.departmentApi.getAllDepartments()
-      .subscribe(departments => this.departmentsState.setDepartments(departments));
-  };
+    this.departmentApi
+      .getAllDepartments()
+      .subscribe((departments) =>
+        this.departmentsState.setDepartments(departments)
+      );
+  }
 
   /**
    * Obtient un Observable émettant le département actuellement sélectionné.
@@ -37,7 +40,7 @@ export class MainDashboardFacadeService {
    */
   getDepartments$(): Observable<Department[]> {
     return this.departmentsState.getDepartments$();
-  };
+  }
 
   getSelectedDepartment$(): Observable<Department | null> {
     return this.departmentsState.getSelectedDepatment$();
@@ -61,14 +64,19 @@ export class MainDashboardFacadeService {
   loadTemperaturesForSelectedDateIfNotLoaded(): Observable<void> {
     return combineLatest({
       selectedDate: this.getSelectedDate$(),
-      dateOfTemperaturesLoaded: this.temperatureDepartmentsState.getDatesOfLoadedTemperaturesDepartments$()
+      dateOfTemperaturesLoaded:
+        this.temperatureDepartmentsState.getDatesOfLoadedTemperaturesDepartments$(),
     }).pipe(
       map(({ selectedDate, dateOfTemperaturesLoaded }) => {
-        if (!dateOfTemperaturesLoaded.includes(this.temperatureDepartmentsState.getDateFormatted(selectedDate))) {
+        if (
+          !dateOfTemperaturesLoaded.includes(
+            this.temperatureDepartmentsState.getDateFormatted(selectedDate)
+          )
+        ) {
           return this.loadTemperaturesForSelectedDate(selectedDate);
         }
       })
-    )
+    );
   }
 
   /**
@@ -78,10 +86,14 @@ export class MainDashboardFacadeService {
    * @param date La date pour laquelle charger les températures.
    */
   loadTemperaturesForSelectedDate(date: Date): void {
-    this.temperatureDepartmentsApi.getDepartmentsTemperatureForDate(date)
-      .subscribe(temperatureDepartments => {
-        this.temperatureDepartmentsState.addTemperatureDepartmentForDate(date, temperatureDepartments.results)
-      })
+    this.temperatureDepartmentsApi
+      .getDepartmentsTemperatureForDate(date)
+      .subscribe((temperatureDepartments) => {
+        this.temperatureDepartmentsState.addTemperatureDepartmentForDate(
+          date,
+          temperatureDepartments.results
+        );
+      });
   }
 
   /**
@@ -89,10 +101,16 @@ export class MainDashboardFacadeService {
    *
    * @returns Un Observable émettant un tableau de températures pour la date selectionnée.
    */
-  getTemperatureDepartmentsForSelectedDate$(): Observable<TemperatureDepartment[]> {
-    return this.getSelectedDate$().pipe(switchMap(date => {
-      return this.temperatureDepartmentsState.getTemperatureDepartmentsForDate$(date);
-    }))
+  getTemperatureDepartmentsForSelectedDate$(): Observable<
+    TemperatureDepartment[]
+  > {
+    return this.getSelectedDate$().pipe(
+      switchMap((date) => {
+        return this.temperatureDepartmentsState.getTemperatureDepartmentsForDate$(
+          date
+        );
+      })
+    );
   }
 
   /**
@@ -103,13 +121,16 @@ export class MainDashboardFacadeService {
   getSelectedDepartmentTemperatureForSelectedDate$(): Observable<TemperatureDepartment> {
     return combineLatest({
       departmentTemperatures: this.getTemperatureDepartmentsForSelectedDate$(),
-      selectedDepartment: this.getSelectedDepartment$()
+      selectedDepartment: this.getSelectedDepartment$(),
     }).pipe(
-      filter(x => x.departmentTemperatures !== undefined),
+      filter((x) => x.departmentTemperatures !== undefined),
       map(({ departmentTemperatures, selectedDepartment }) => {
-        return departmentTemperatures.filter(TDepartment => TDepartment.code_insee_departement === selectedDepartment?.code)[0];
+        return departmentTemperatures.filter(
+          (TDepartment) =>
+            TDepartment.code_insee_departement === selectedDepartment?.code
+        )[0];
       })
-    )
+    );
   }
 
   /**
@@ -118,7 +139,7 @@ export class MainDashboardFacadeService {
    * @returns Un Observable émettant la date sélectionnée.
    */
   getSelectedDate$(): Observable<Date> {
-    return this.dateSelectionState.getSelectedDate$().pipe(throttleTime(1000));
+    return this.dateSelectionState.getSelectedDate$();
   }
 
   /**
@@ -130,4 +151,3 @@ export class MainDashboardFacadeService {
     this.dateSelectionState.setSelectedDate(date);
   }
 }
-

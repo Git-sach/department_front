@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Department } from 'src/app/shared/interfaces/department.interface';
-import { SvgDepartmentsComponent } from '../svg-departments/svg-departments.component';
 import { TemperatureDepartment } from 'src/app/shared/interfaces/temperatureDepartment';
+import { SvgDepartmentsComponent } from '../svg-departments/svg-departments.component';
 
 @Component({
   selector: 'app-details-department',
@@ -17,6 +17,10 @@ export class DetailsDepartmentComponent {
   @Input({ required: true }) temperature: TemperatureDepartment | null = null;
 
   public get vewbox() {
-    return `${this.department?.viewBox00} ${this.department?.viewBox01} ${this.department?.viewBox10} ${this.department?.viewBox11}`
+    let viewBox = '0 0 0 0'
+    if(this.department) {
+      viewBox = `${this.department?.viewBox00} ${this.department?.viewBox01} ${this.department?.viewBox10} ${this.department?.viewBox11}`
+    }
+    return viewBox
   }
 }

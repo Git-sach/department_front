@@ -1,24 +1,34 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
+import { Department } from 'src/app/shared/interfaces/department.interface';
+import { TemperatureDepartment } from 'src/app/shared/interfaces/temperatureDepartment';
+import { DetailsDepartmentComponent } from '../../components/details-department/details-department.component';
+import { ListDepartmentsComponent } from '../../components/list-departments/list-departments.component';
+import { SliderDateComponent } from '../../components/slider-date/slider-date.component';
 import { SvgDepartmentsComponent } from '../../components/svg-departments/svg-departments.component';
 import { MainDashboardFacadeService } from '../../facade/main-dashboard-facade.service';
-import { Observable, Subscription, combineLatest, map } from 'rxjs';
-import { Department } from 'src/app/shared/interfaces/department.interface';
-import { ListDepartmentsComponent } from '../../components/list-departments/list-departments.component';
-import { DetailsDepartmentComponent } from '../../components/details-department/details-department.component';
-import { TemperatureDepartment } from 'src/app/shared/interfaces/temperatureDepartment';
-import { SliderDateComponent } from '../../components/slider-date/slider-date.component';
 
 @Component({
   selector: 'app-main-dashboard',
   standalone: true,
-  imports: [CommonModule, SvgDepartmentsComponent, ListDepartmentsComponent, DetailsDepartmentComponent, SliderDateComponent],
+  imports: [
+    CommonModule,
+    SvgDepartmentsComponent,
+    ListDepartmentsComponent,
+    DetailsDepartmentComponent,
+    SliderDateComponent,
+  ],
   templateUrl: './main-dashboard.component.html',
   styleUrls: ['./main-dashboard.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MainDashboardComponent implements OnInit, OnDestroy {
-
   departments$: Observable<Department[]>;
   selectedDepartment$: Observable<Department | null>;
 
@@ -27,20 +37,23 @@ export class MainDashboardComponent implements OnInit, OnDestroy {
 
   loadTemperaturesSubscription?: Subscription;
 
-
   constructor(private mainDashboardFacade: MainDashboardFacadeService) {
     this.departments$ = mainDashboardFacade.getDepartments$();
     this.selectedDepartment$ = mainDashboardFacade.getSelectedDepartment$();
 
-    this.departmentTemperatures$ = this.mainDashboardFacade.getTemperatureDepartmentsForSelectedDate$();
-    this.selectedDepartmentTemperature$ = this.mainDashboardFacade.getSelectedDepartmentTemperatureForSelectedDate$();
+    this.departmentTemperatures$ =
+      this.mainDashboardFacade.getTemperatureDepartmentsForSelectedDate$();
+    this.selectedDepartmentTemperature$ =
+      this.mainDashboardFacade.getSelectedDepartmentTemperatureForSelectedDate$();
   }
 
   ngOnInit(): void {
     this.mainDashboardFacade.loadDepartments();
-    this.loadTemperaturesSubscription = this.mainDashboardFacade.loadTemperaturesForSelectedDateIfNotLoaded().subscribe();
+    this.loadTemperaturesSubscription = this.mainDashboardFacade
+      .loadTemperaturesForSelectedDateIfNotLoaded()
+      .subscribe();
     //provisoir pour le dev
-    this.departments$.subscribe(x => this.selectDepartment(x[0]));
+    this.departments$.subscribe((x) => this.selectDepartment(x[0]));
   }
 
   selectDepartment(department: Department) {
