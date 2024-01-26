@@ -1,22 +1,21 @@
 * {
   box-sizing: border-box;
-  font-family: 'KoHo', sans-serif;
+  font-family: "KoHo", sans-serif;
 }
 
 :root {
   // colors
-  --app_background: #FCFCFC;
-  --subtle_background: #F9F9F9;
-  --solid_backgrounds: #F76B15;
-  --subtle_borders: #FFC182;
+  --app_background: #fcfcfc;
+  --subtle_background: #f9f9f9;
+  --solid_backgrounds: #f76b15;
+  --subtle_borders: #ffc182;
   --heigh_contrast_text: #202020;
 
-
   // grey
-  --grey_app_background: #FCFCFC;
-  --grey_subtle_borders_separators: #D9D9D9;
-  --grey_hovered_ui_element: #E8E8E8;
-  --grey_solid_backgrounds: #8D8D8D;
+  --grey_app_background: #fcfcfc;
+  --grey_subtle_borders_separators: #d9d9d9;
+  --grey_hovered_ui_element: #e8e8e8;
+  --grey_solid_backgrounds: #8d8d8d;
   --grey_hovered_solid_backgrounds: #838383;
   --grey_low_contrast_text: #646464;
   --grey_heigh_contrast_text: #202020;
@@ -72,7 +71,6 @@ body {
   padding: 5px;
 
   .main_dashboard_container {
-
     .control_container {
       height: 10%;
       padding: 10px;
@@ -102,7 +100,7 @@ body {
         padding: 10px;
       }
 
-      .courbe_panel {
+      .chart_panel {
         // border: solid 1px black;
         flex: 1 0 45%;
         height: 30%;
@@ -127,9 +125,7 @@ body {
     display: flex;
     justify-content: center;
   }
-
 }
-
 
 @media screen and (max-width: 600px) {
   .app_container {

@@ -8,6 +8,7 @@ import {
 import { Observable, Subscription } from 'rxjs';
 import { Department } from 'src/app/shared/interfaces/department.interface';
 import { TemperatureDepartment } from 'src/app/shared/interfaces/temperatureDepartment';
+import { ChartLineComponent } from '../../components/chart-line/chart-line.component';
 import { DetailsDepartmentComponent } from '../../components/details-department/details-department.component';
 import { ListDepartmentsComponent } from '../../components/list-departments/list-departments.component';
 import { SliderDateComponent } from '../../components/slider-date/slider-date.component';
@@ -23,6 +24,7 @@ import { MainDashboardFacadeService } from '../../facade/main-dashboard-facade.s
     ListDepartmentsComponent,
     DetailsDepartmentComponent,
     SliderDateComponent,
+    ChartLineComponent,
   ],
   templateUrl: './main-dashboard.component.html',
   styleUrls: ['./main-dashboard.component.scss'],
