@@ -36,6 +36,9 @@ export class MainDashboardComponent implements OnInit, OnDestroy {
 
   departmentTemperatures$: Observable<TemperatureDepartment[]>;
   selectedDepartmentTemperature$: Observable<TemperatureDepartment>;
+  temperaturesForSelectedDepartmentOverThreeMonth$: Observable<
+    TemperatureDepartment[]
+  >;
 
   departmentsWichTemperatureMoy$: Observable<Department[]>;
 
@@ -49,6 +52,9 @@ export class MainDashboardComponent implements OnInit, OnDestroy {
       this.mainDashboardFacade.getTemperatureDepartmentsForSelectedDate$();
     this.selectedDepartmentTemperature$ =
       this.mainDashboardFacade.getSelectedDepartmentTemperatureForSelectedDate$();
+    this.temperaturesForSelectedDepartmentOverThreeMonth$ =
+      this.mainDashboardFacade.getTemperaturesForSelectedDepartmentAndSelectedDateOverThreeMonth$();
+
     this.departmentsWichTemperatureMoy$ =
       this.mainDashboardFacade.getDepartmentsWichTemperatureMoyForSelectedDate$();
   }

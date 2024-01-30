@@ -22,6 +22,7 @@ export class MainDashboardFacadeService {
 
   dateSelectionState = inject(DateSelectionStateService);
 
+  // DEPARTMENT
   /**
    * Charge la liste complète des départements depuis l'API et met à jour le state des départements.
    */
@@ -33,6 +34,7 @@ export class MainDashboardFacadeService {
       );
   }
 
+  // DEPARTMENT
   /**
    * Obtient un Observable émettant le département actuellement sélectionné.
    *
@@ -42,10 +44,12 @@ export class MainDashboardFacadeService {
     return this.departmentsState.getDepartments$();
   }
 
+  // DEPARTMENT
   getSelectedDepartment$(): Observable<Department | null> {
     return this.departmentsState.getSelectedDepatment$();
   }
 
+  // DEPARTMENT
   /**
    * Définit le département sélectionné dans le store des départements.
    *
@@ -55,6 +59,7 @@ export class MainDashboardFacadeService {
     this.departmentsState.setSelectedDepartment(department);
   }
 
+  // TEMPERATURE DATE
   /**
    * Obtient un Observable qui effectue un appel à l'API lorsque la date change,
    * uniquement si les températures correspondantes ne sont pas déjà stockées dans le store.
@@ -79,6 +84,7 @@ export class MainDashboardFacadeService {
     );
   }
 
+  // TEMPERATURE DATE
   /**
    * Charge les températures pour la date sélectionnée en faisant appel à l'API.
    * Les résultats obtenus sont ensuite ajoutés au state.
@@ -96,6 +102,35 @@ export class MainDashboardFacadeService {
       });
   }
 
+  // TEMPERATURE DATE DEPARTMENT
+  //TODO fair la methode qui prend les temps d'un dep sur 1, 2, 3 mois ? en fonction de la la date selected (moitié avnt moitié apres)
+  getTemperaturesForSelectedDepartmentAndSelectedDateOverThreeMonth$(): Observable<
+    TemperatureDepartment[]
+  > {
+    const selectedDate$ = this.getSelectedDate$();
+    const department$ = this.getSelectedDepartment$();
+
+    return selectedDate$.pipe(
+      switchMap((date) => {
+        console.log(date);
+
+        return department$.pipe(
+          filter((department) => department !== null),
+          switchMap((department) => {
+            return this.temperatureDepartmentsApi
+              .getTemperaturesForDepartmentNumberAndDateInterval(
+                department!.code,
+                new Date('01-01-2020'),
+                new Date('02-01-2020')
+              )
+              .pipe(map((x) => x.results));
+          })
+        );
+      })
+    );
+  }
+
+  // TEMPERATURE DATE
   /**
    * Obtient un Observable émettant les températures pour tous les départements, à la date sélectionnée.
    *
@@ -114,6 +149,7 @@ export class MainDashboardFacadeService {
     );
   }
 
+  // TEMPERATURE DEPARTMENT DATE
   /**
    * Obtient un Observable émettant les températures pour le département sélectionné, à la date sélectionnée.
    *
@@ -133,6 +169,7 @@ export class MainDashboardFacadeService {
     );
   }
 
+  // DATE
   /**
    * Obtient un Observable émettant la date sélectionnée.
    *
@@ -142,6 +179,7 @@ export class MainDashboardFacadeService {
     return this.dateSelectionState.getSelectedDate$();
   }
 
+  // DATE
   /**
    * Définit la date sélectionnée dans le state de la sélection de date.
    *
@@ -151,6 +189,7 @@ export class MainDashboardFacadeService {
     this.dateSelectionState.setSelectedDate(date);
   }
 
+  // DEPARTMENT TEMPERATURE DATE
   /**
    * Obtient un Observable de departements avec les températures moyennes pour la date sélectionnée.
    * Combinant les informations des départements et des températures moy
@@ -174,7 +213,6 @@ export class MainDashboardFacadeService {
           );
           department.tMoy = temperatureDepartment!.tmoy;
         });
-
         return departmentsCopy;
       })
     );
