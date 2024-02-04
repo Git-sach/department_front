@@ -103,7 +103,6 @@ export class MainDashboardFacadeService {
   }
 
   // TEMPERATURE DATE DEPARTMENT
-  //TODO fair la methode qui prend les temps d'un dep sur 1, 2, 3 mois ? en fonction de la la date selected (moitié avnt moitié apres)
   getTemperaturesForSelectedDepartmentAndSelectedDateOverThreeMonth$(): Observable<
     TemperatureDepartment[]
   > {
@@ -112,7 +111,10 @@ export class MainDashboardFacadeService {
 
     return selectedDate$.pipe(
       switchMap((date) => {
-        console.log(date);
+        // 1,5 mois ->   45,6 jours -> 1 094,4 h -> 65 664 min -> 3 939 840 s -> 3 939 840 000 ms
+        const offsetDate = 3939840000;
+        const dateMin = new Date(date.getTime() - offsetDate);
+        const dateMax = new Date(date.getTime() + offsetDate);
 
         return department$.pipe(
           filter((department) => department !== null),
@@ -120,8 +122,8 @@ export class MainDashboardFacadeService {
             return this.temperatureDepartmentsApi
               .getTemperaturesForDepartmentNumberAndDateInterval(
                 department!.code,
-                new Date('01-01-2020'),
-                new Date('02-01-2020')
+                dateMin,
+                dateMax
               )
               .pipe(map((x) => x.results));
           })
