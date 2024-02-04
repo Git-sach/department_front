@@ -2,64 +2,54 @@ import { Injectable, inject } from '@angular/core';
 import { Observable, combineLatest, filter, map, switchMap } from 'rxjs';
 import { Department } from 'src/app/shared/interfaces/department.interface';
 import { TemperatureDepartment } from 'src/app/shared/interfaces/temperatureDepartment';
-import { DepartmentsService } from 'src/app/shared/services/api/departments.service';
-import { TemperatureDepartmentsService } from 'src/app/shared/services/api/temperature-departments.service';
-import { DateSelectionStateService } from '../states/date-selection-state.service';
-import { DepartmentsStateService } from '../states/departments-state.service';
-import { TemperatureDepartmentsStateService } from '../states/temperature-departments-state.service';
+import { DateFacade } from './date-facade.service';
+import { DepartmentsFacade } from './departments-facade.service';
+import { TemperatureFacade } from './temperature-facade.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MainDashboardFacadeService {
-  //TODO: Faire deux classes distincles et faire hériter cette classe des deux autres ??
+  departmentsFacade = inject(DepartmentsFacade);
+  temperatureFacade = inject(TemperatureFacade);
+  dateFacade = inject(DateFacade);
 
-  departmentApi = inject(DepartmentsService);
-  departmentsState = inject(DepartmentsStateService);
+  // DEPARTMENTS -----------------------------------------------------
 
-  temperatureDepartmentsApi = inject(TemperatureDepartmentsService);
-  temperatureDepartmentsState = inject(TemperatureDepartmentsStateService);
-
-  dateSelectionState = inject(DateSelectionStateService);
-
-  // DEPARTMENT
-  /**
-   * Charge la liste complète des départements depuis l'API et met à jour le state des départements.
-   */
   loadDepartments(): void {
-    this.departmentApi
-      .getAllDepartments()
-      .subscribe((departments) =>
-        this.departmentsState.setDepartments(departments)
-      );
+    this.departmentsFacade.loadDepartments();
   }
 
-  // DEPARTMENT
-  /**
-   * Obtient un Observable émettant le département actuellement sélectionné.
-   *
-   * @returns Un Observable émettant le département sélectionné.
-   */
   getDepartments$(): Observable<Department[]> {
-    return this.departmentsState.getDepartments$();
+    return this.departmentsFacade.getDepartments$();
   }
 
-  // DEPARTMENT
   getSelectedDepartment$(): Observable<Department | null> {
-    return this.departmentsState.getSelectedDepatment$();
+    return this.departmentsFacade.getSelectedDepartment$();
   }
 
-  // DEPARTMENT
-  /**
-   * Définit le département sélectionné dans le store des départements.
-   *
-   * @param department Le nouveau département à définir comme département sélectionné.
-   */
   setSelectedDepartment(department: Department): void {
-    this.departmentsState.setSelectedDepartment(department);
+    this.departmentsFacade.setSelectedDepartment(department);
   }
 
-  // TEMPERATURE DATE
+  // TEMPERATURE -----------------------------------------------------
+
+  loadTemperaturesForDate(date: Date): void {
+    this.temperatureFacade.loadTemperaturesForDate(date);
+  }
+
+  // DATE ------------------------------------------------------------
+
+  getSelectedDate$(): Observable<Date> {
+    return this.dateFacade.getSelectedDate$();
+  }
+
+  setSelectedDate(date: Date): void {
+    this.dateFacade.setSelectedDate(date);
+  }
+
+  // Mixte -----------------------------------------------------------
+
   /**
    * Obtient un Observable qui effectue un appel à l'API lorsque la date change,
    * uniquement si les températures correspondantes ne sont pas déjà stockées dans le store.
@@ -67,42 +57,21 @@ export class MainDashboardFacadeService {
    * @returns Un Observable
    */
   loadTemperaturesForSelectedDateIfNotLoaded(): Observable<void> {
-    return combineLatest({
-      selectedDate: this.getSelectedDate$(),
-      dateOfTemperaturesLoaded:
-        this.temperatureDepartmentsState.getDatesOfLoadedTemperaturesDepartments$(),
-    }).pipe(
-      map(({ selectedDate, dateOfTemperaturesLoaded }) => {
+    const date$ = this.getSelectedDate$();
+    const loadedDates$ =
+      this.temperatureFacade.getDatesOfLoadedTemperaturesDepartments$();
+
+    return combineLatest([date$, loadedDates$]).pipe(
+      map(([date, loadedDates]) => {
         if (
-          !dateOfTemperaturesLoaded.includes(
-            this.temperatureDepartmentsState.getDateFormatted(selectedDate)
-          )
+          !loadedDates.includes(this.temperatureFacade.getDateFormatted(date))
         ) {
-          return this.loadTemperaturesForSelectedDate(selectedDate);
+          return this.loadTemperaturesForDate(date);
         }
       })
     );
   }
 
-  // TEMPERATURE DATE
-  /**
-   * Charge les températures pour la date sélectionnée en faisant appel à l'API.
-   * Les résultats obtenus sont ensuite ajoutés au state.
-   *
-   * @param date La date pour laquelle charger les températures.
-   */
-  loadTemperaturesForSelectedDate(date: Date): void {
-    this.temperatureDepartmentsApi
-      .getDepartmentsTemperatureForDate(date)
-      .subscribe((temperatureDepartments) => {
-        this.temperatureDepartmentsState.addTemperatureDepartmentForDate(
-          date,
-          temperatureDepartments.results
-        );
-      });
-  }
-
-  // TEMPERATURE DATE DEPARTMENT
   getTemperaturesForSelectedDepartmentAndSelectedDateOverThreeMonth$(): Observable<
     TemperatureDepartment[]
   > {
@@ -119,20 +88,17 @@ export class MainDashboardFacadeService {
         return department$.pipe(
           filter((department) => department !== null),
           switchMap((department) => {
-            return this.temperatureDepartmentsApi
-              .getTemperaturesForDepartmentNumberAndDateInterval(
-                department!.code,
-                dateMin,
-                dateMax
-              )
-              .pipe(map((x) => x.results));
+            return this.temperatureFacade.getTemperaturesForDepartmentNumberAndDateInterval(
+              department!.code,
+              dateMin,
+              dateMax
+            );
           })
         );
       })
     );
   }
 
-  // TEMPERATURE DATE
   /**
    * Obtient un Observable émettant les températures pour tous les départements, à la date sélectionnée.
    *
@@ -143,55 +109,31 @@ export class MainDashboardFacadeService {
   > {
     return this.getSelectedDate$().pipe(
       switchMap((date) => {
-        return this.temperatureDepartmentsState.getTemperatureDepartmentsForDate$(
-          date
-        );
+        return this.temperatureFacade.getTemperatureDepartmentsForDate$(date);
       }),
       filter((temperatureDepartments) => temperatureDepartments !== undefined)
     );
   }
 
-  // TEMPERATURE DEPARTMENT DATE
   /**
    * Obtient un Observable émettant les températures pour le département sélectionné, à la date sélectionnée.
    *
    * @returns Un Observable émettant les températures pour le département sélectionné à la date selectionnée.
    */
   getSelectedDepartmentTemperatureForSelectedDate$(): Observable<TemperatureDepartment> {
-    return combineLatest({
-      departmentTemperatures: this.getTemperatureDepartmentsForSelectedDate$(),
-      selectedDepartment: this.getSelectedDepartment$(),
-    }).pipe(
-      map(({ departmentTemperatures, selectedDepartment }) => {
-        return departmentTemperatures.find(
+    const temperatures$ = this.getTemperatureDepartmentsForSelectedDate$();
+    const department$ = this.getSelectedDepartment$();
+
+    return combineLatest([temperatures$, department$]).pipe(
+      map(([temperatures, department]) => {
+        return temperatures.find(
           (TDepartment) =>
-            TDepartment.code_insee_departement === selectedDepartment?.code
+            TDepartment.code_insee_departement === department?.code
         )!;
       })
     );
   }
 
-  // DATE
-  /**
-   * Obtient un Observable émettant la date sélectionnée.
-   *
-   * @returns Un Observable émettant la date sélectionnée.
-   */
-  getSelectedDate$(): Observable<Date> {
-    return this.dateSelectionState.getSelectedDate$();
-  }
-
-  // DATE
-  /**
-   * Définit la date sélectionnée dans le state de la sélection de date.
-   *
-   * @param date La nouvelle date à définir comme date sélectionnée.
-   */
-  setSelectedDate(date: Date): void {
-    this.dateSelectionState.setSelectedDate(date);
-  }
-
-  // DEPARTMENT TEMPERATURE DATE
   /**
    * Obtient un Observable de departements avec les températures moyennes pour la date sélectionnée.
    * Combinant les informations des départements et des températures moy
