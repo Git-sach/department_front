@@ -2,8 +2,8 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  // margin-top: 30px;
-  justify-content: space-around;
+  padding: 0 10px 0 10px;
+  justify-content: space-between;
 
   svg {
     max-width: 100%;
@@ -27,9 +27,16 @@
   .temperatures {
     display: flex;
     justify-content: space-between;
+    svg {
+      height: 20px;
+    }
     .temperature {
       display: flex;
-      gap: 5px;
+      gap: 2px;
+      p {
+        margin: 0 0 0 0;
+        font-size: 0.9em;
+      }
     }
   }
 }

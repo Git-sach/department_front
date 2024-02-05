@@ -20,17 +20,21 @@ export class ChartLineComponent {
   @Input({ required: true }) data: TemperatureDepartment[] | null = null;
   @ViewChild('chartContainer') chartContainer?: ElementRef;
   private myChart?: echarts.ECharts;
+  private echartOption?: echarts.EChartsOption;
 
   ngAfterViewInit(): void {
     this.myChart = echarts.init(this.chartContainer?.nativeElement);
+    if (this.echartOption) {
+      this.myChart?.setOption(this.echartOption);
+    }
   }
 
   ngOnChanges() {
-    if (this.data && this.myChart) {
+    if (this.data) {
       const dateListe = this.data?.map((x) => x.date_obs).reverse();
       const valueList = this.data?.map((x) => x.tmoy).reverse();
 
-      const option: echarts.EChartsOption = {
+      this.echartOption = {
         tooltip: {
           trigger: 'axis',
         },
@@ -62,7 +66,7 @@ export class ChartLineComponent {
         ],
       };
 
-      this.myChart?.setOption(option);
+      this.myChart?.setOption(this.echartOption);
     }
   }
 
