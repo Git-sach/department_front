@@ -1,26 +1,62 @@
-$transition_hover_selected: .2s;
+$transition_hover_selected: 0.2s;
+$legende_bar_width: 5px;
 
 .container {
   height: 100%;
-  svg {
-    height: 100%;
-    fill: transparent;
-    // stroke: var(--heigh_contrast_text);
-    stroke-width: .4px;
-    cursor: pointer;
-    path.selected, path:hover {
-      stroke: var(--subtle_borders);
-      transition: $transition_hover_selected;
+  display: flex;
+  position: relative;
+  justify-content: center;
+  .svg_container {
+    svg {
+      height: 100%;
+      fill: transparent;
+      // stroke: var(--heigh_contrast_text);
+      stroke-width: 0.4px;
+      cursor: pointer;
+      path.selected,
+      path:hover {
+        stroke: var(--app_background);
+        stroke-width: 3px;
+        transition: $transition_hover_selected;
+      }
     }
   }
-}
-
-
-
-@media screen and (max-width: 960px) {
-  .container {
-    svg {
-      width: 100%;
+  .legende_container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 150px;
+    width: 100px;
+    display: flex;
+    gap: 5px;
+    .bar_container {
+      display: flex;
+      flex-direction: column-reverse;
+      .bottom_radius {
+        width: $legende_bar_width;
+        height: $legende_bar_width;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+      }
+      .color_of_gradiant {
+        width: $legende_bar_width;
+        flex: 1;
+      }
+      .top_radius {
+        width: $legende_bar_width;
+        height: $legende_bar_width;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+      }
+    }
+    .digit_container {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      p {
+        margin: 0;
+        font-size: 0.7rem;
+      }
     }
   }
 }

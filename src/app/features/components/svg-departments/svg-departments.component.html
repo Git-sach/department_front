@@ -1,16 +1,44 @@
-
 <div class="container">
-  <svg viewBox="0 0 612.3844 584.36005">
-    <g>
-      <path
-        *ngFor="let department of departmentWichColors"
-        [ngClass]="
-          selectedDepartment!.code === department.code ? 'selected' : ''
-        "
-        [attr.d]="department.svg_path"
-        (click)="selectDepartment(department)"
-        [ngStyle]="{ fill: department.color }"
-      />
-    </g>
-  </svg>
+  <div class="svg_container">
+    <svg viewBox="0 0 612.3844 584.36005">
+      <g>
+        <path
+          *ngFor="let department of departmentWichColors"
+          [ngClass]="
+            selectedDepartment!.code === department.code ? 'selected' : ''
+          "
+          [attr.d]="department.svg_path"
+          (click)="selectDepartment(department)"
+          [ngStyle]="{ fill: department.color }"
+        />
+      </g>
+    </svg>
+  </div>
+  <div class="legende_container">
+    <div class="bar_container">
+      <div
+        class="bottom_radius"
+        [ngStyle]="{
+          'background-color': '#' + gradientOfColor[0].valueHexa
+        }"
+      ></div>
+      <div
+        class="color_of_gradiant"
+        *ngFor="let color of gradientOfColor"
+        [ngStyle]="{ 'background-color': '#' + color.valueHexa }"
+      ></div>
+      <div
+        class="top_radius"
+        [ngStyle]="{
+          'background-color':
+            '#' + gradientOfColor[gradientOfColor.length - 1].valueHexa
+        }"
+      ></div>
+    </div>
+    <div class="digit_container">
+      <p>{{ tMaxCeil }} C°</p>
+      <p>{{ tMoyRounded }} C°</p>
+      <p>{{ tMinFloor }} C°</p>
+    </div>
+  </div>
 </div>

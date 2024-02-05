@@ -28,12 +28,16 @@ export class SvgDepartmentsComponent {
   @Input({ required: true }) selectedDepartment: Department | null = null;
   @Output() departmentEmitter = new EventEmitter<Department>();
 
+  public tMax: number = 0;
+  public tMin: number = 0;
+
   departmentWichColors: Department[] = [];
 
-  private numberOfColorsInGradient = 200;
+  private numberOfColorsInGradient = 50;
   private negativeColor = new Color('4F2206');
   private positiveColor = new Color('F76B15');
-  private gradientOfColor = this.negativeColor.creatGradient(
+
+  public gradientOfColor = this.negativeColor.creatGradient(
     this.positiveColor,
     this.numberOfColorsInGradient
   );
@@ -42,14 +46,14 @@ export class SvgDepartmentsComponent {
     this.departmentEmitter.emit(department);
   }
 
-  getTemperatureMinOfDepartments(department: Department[]): number {
-    return department.reduce((acc, current) =>
+  getTemperatureMinOfDepartments(departments: Department[]): number {
+    return departments.reduce((acc, current) =>
       current.tMoy! < acc.tMoy! ? current : acc
     ).tMoy!;
   }
 
-  getTemperatureMaxOfDepartments(department: Department[]): number {
-    return department.reduce((acc, current) =>
+  getTemperatureMaxOfDepartments(departments: Department[]): number {
+    return departments.reduce((acc, current) =>
       current.tMoy! > acc.tMoy! ? current : acc
     ).tMoy!;
   }
@@ -62,16 +66,16 @@ export class SvgDepartmentsComponent {
    * @returns Une nouvelle liste de départements avec les couleurs attribuées.
    */
   setColorToDepartments(departments: Department[]): Department[] {
-    const tMax = this.getTemperatureMaxOfDepartments(departments);
-    const tMin = this.getTemperatureMinOfDepartments(departments);
+    this.tMax = this.getTemperatureMaxOfDepartments(departments);
+    this.tMin = this.getTemperatureMinOfDepartments(departments);
 
     let departmentsCopy: Department[] = JSON.parse(JSON.stringify(departments));
 
     departmentsCopy.map((department) => {
       const indexOfGradientColor = this.findNumericValueOfAnalogData(
         department.tMoy!,
-        tMax,
-        tMin,
+        this.tMax,
+        this.tMin,
         this.numberOfColorsInGradient
       );
       const color = `#${this.gradientOfColor[indexOfGradientColor].valueHexa}`;
@@ -113,5 +117,15 @@ export class SvgDepartmentsComponent {
     return Math.floor(
       (value - valueMin) * ((sampling - 1) / (valueMax - valueMin))
     );
+  }
+
+  get tMaxCeil() {
+    return Math.ceil(this.tMax);
+  }
+  get tMoyRounded() {
+    return Math.round((this.tMax + this.tMin) / 2);
+  }
+  get tMinFloor() {
+    return Math.floor(this.tMin);
   }
 }

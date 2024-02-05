@@ -119,12 +119,6 @@ body {
     width: 100%;
     position: relative;
   }
-
-  //TODO: mettre en classe générique
-  .flex_centered {
-    display: flex;
-    justify-content: center;
-  }
 }
 
 @media screen and (max-width: 600px) {
