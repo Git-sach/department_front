@@ -2,10 +2,10 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  padding: 0 10px 0 10px;
+  padding: 10px 10px 10px 10px;
   justify-content: space-between;
 
-  svg {
+  .department_svg {
     max-width: 100%;
     height: 30%;
     align-self: center;
@@ -28,7 +28,7 @@
     display: flex;
     justify-content: space-between;
     svg {
-      height: 20px;
+      height: 14px;
     }
     .temperature {
       display: flex;
@@ -36,6 +36,31 @@
       p {
         margin: 0 0 0 0;
         font-size: 0.9em;
+      }
+    }
+
+    .max {
+      svg {
+        fill: #f76b15;
+      }
+      p {
+        color: #f76b15;
+      }
+    }
+    .moy {
+      svg {
+        fill: #a5470e;
+      }
+      p {
+        color: #a5470e;
+      }
+    }
+    .min {
+      svg {
+        fill: #502206;
+      }
+      p {
+        color: #502206;
       }
     }
   }

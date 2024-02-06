@@ -2,8 +2,8 @@
   <table>
     <thead>
       <tr>
-        <th>N°</th>
-        <th>Nom</th>
+        <th><p>N°</p></th>
+        <th><p>Nom</p></th>
       </tr>
     </thead>
     <tbody>
@@ -14,8 +14,12 @@
         "
         (click)="selectDepartment(department)"
       >
-        <td>{{ department.code }}</td>
-        <td>{{ department.name }}</td>
+        <td>
+          <p>{{ department.code }}</p>
+        </td>
+        <td>
+          <p>{{ department.name }}</p>
+        </td>
       </tr>
     </tbody>
   </table>

@@ -1,12 +1,16 @@
 $border_radius_row: 3px;
-$transition_hover_selected: .2s;
+$transition_hover_selected: 0.2s;
 
 .container {
-  height: calc(100% - 2*var(--padding_panel));
-  width: calc(100% - 2*var(--padding_panel));
+  height: calc(100% - 2 * var(--padding_panel));
+  width: calc(100% - 2 * var(--padding_panel));
   overflow-x: hidden;
   position: absolute;
   table {
+    p {
+      margin: 0;
+      font-size: small;
+    }
     width: calc(100% - 10px);
     border-collapse: collapse;
     tr {
@@ -42,7 +46,7 @@ $transition_hover_selected: .2s;
 
     .selected {
       background-color: var(--solid_backgrounds);
-      td {
+      td p {
         color: var(--app_background);
       }
       transition: $transition_hover_selected;

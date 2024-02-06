@@ -1,0 +1,73 @@
+$padding_anel: 5px;
+
+.control_container {
+  height: 10%;
+  margin: 0 12px 0 12px;
+  border-bottom: 1px solid var(--grey_subtle_borders_separators);
+}
+
+.panels_container {
+  height: 90%;
+  display: flex;
+  flex-wrap: wrap;
+
+  .department_detail_panel {
+    // border: solid 1px rgb(255, 0, 0);
+    flex: 4 0 260px;
+    height: 65%;
+    padding: $padding_anel;
+  }
+
+  .map_france_panel {
+    // border: solid 1px black;
+    flex: 1 0 45%;
+    padding: $padding_anel;
+  }
+
+  .list_departments_panel {
+    // border: solid 1px rgb(13, 0, 255);
+    flex: 4 0 260px;
+    padding: $padding_anel;
+  }
+
+  .chart_panel {
+    // border: solid 1px black;
+    flex: 1 0 45%;
+    height: 35%;
+    padding: $padding_anel;
+  }
+}
+
+.panel_container {
+  border: solid 1px var(--grey_subtle_borders_separators);
+  background: var(--app_background);
+  padding: var(--padding_panel);
+  box-shadow: var(--box_shadow_panel);
+  border-radius: var(--border_box_panel);
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+@media screen and (max-width: 600px) {
+  .panels_container {
+    .department_detail_panel {
+      height: auto;
+      flex: 1 0 100%;
+    }
+
+    .map_france_panel {
+      // border: solid 1px black;
+      flex: 1 0 100%;
+    }
+
+    .list_departments_panel {
+      flex: 1 0 100%;
+    }
+
+    .courbe_panel {
+      height: auto;
+      flex: 1 0 100%;
+    }
+  }
+}
