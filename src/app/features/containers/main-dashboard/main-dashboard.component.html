@@ -33,6 +33,7 @@
     <div class="panel_container">
       <app-chart-line
         [data]="temperaturesForSelectedDepartmentOverThreeMonth$ | async"
+        [selectedDate]="selectedDate$ | async"
       ></app-chart-line>
     </div>
   </div>

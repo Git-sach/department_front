@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable, combineLatest, filter, map, switchMap } from 'rxjs';
 import { Department } from 'src/app/shared/interfaces/department.interface';
 import { TemperatureDepartment } from 'src/app/shared/interfaces/temperatureDepartment';
+import { DateFormater } from 'src/app/shared/utils/date-formater';
 import { DateFacade } from './date-facade.service';
 import { DepartmentsFacade } from './departments-facade.service';
 import { TemperatureFacade } from './temperature-facade.service';
@@ -63,9 +64,7 @@ export class MainDashboardFacadeService {
 
     return combineLatest([date$, loadedDates$]).pipe(
       map(([date, loadedDates]) => {
-        if (
-          !loadedDates.includes(this.temperatureFacade.getDateFormatted(date))
-        ) {
+        if (!loadedDates.includes(DateFormater.dateFormatedString(date))) {
           return this.loadTemperaturesForDate(date);
         }
       })

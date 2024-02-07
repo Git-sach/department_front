@@ -33,6 +33,7 @@ import { MainDashboardFacadeService } from '../../facade/main-dashboard-facade.s
 export class MainDashboardComponent implements OnInit, OnDestroy {
   departments$: Observable<Department[]>;
   selectedDepartment$: Observable<Department | null>;
+  selectedDate$: Observable<Date | null>;
 
   departmentTemperatures$: Observable<TemperatureDepartment[]>;
   selectedDepartmentTemperature$: Observable<TemperatureDepartment>;
@@ -46,17 +47,22 @@ export class MainDashboardComponent implements OnInit, OnDestroy {
 
   constructor(private mainDashboardFacade: MainDashboardFacadeService) {
     this.departments$ = mainDashboardFacade.getDepartments$();
+
     this.selectedDepartment$ = mainDashboardFacade.getSelectedDepartment$();
 
     this.departmentTemperatures$ =
       this.mainDashboardFacade.getTemperatureDepartmentsForSelectedDate$();
+
     this.selectedDepartmentTemperature$ =
       this.mainDashboardFacade.getSelectedDepartmentTemperatureForSelectedDate$();
+
     this.temperaturesForSelectedDepartmentOverThreeMonth$ =
       this.mainDashboardFacade.getTemperaturesForSelectedDepartmentAndSelectedDateOverThreeMonth$();
 
     this.departmentsWichTemperatureMoy$ =
       this.mainDashboardFacade.getDepartmentsWichTemperatureMoyForSelectedDate$();
+
+    this.selectedDate$ = this.mainDashboardFacade.getSelectedDate$();
   }
 
   ngOnInit(): void {

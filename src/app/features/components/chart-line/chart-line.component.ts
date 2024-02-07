@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import * as echarts from 'echarts';
 import { TemperatureDepartment } from 'src/app/shared/interfaces/temperatureDepartment';
+import { DateFormater } from 'src/app/shared/utils/date-formater';
 
 @Component({
   selector: 'app-chart-line',
@@ -18,7 +19,10 @@ import { TemperatureDepartment } from 'src/app/shared/interfaces/temperatureDepa
 })
 export class ChartLineComponent {
   @Input({ required: true }) data: TemperatureDepartment[] | null = null;
+  @Input({ required: true }) selectedDate: Date | null = null;
+
   @ViewChild('chartContainer') chartContainer?: ElementRef;
+
   private myChart?: echarts.ECharts;
   private echartOption?: echarts.EChartsOption;
 
@@ -30,13 +34,16 @@ export class ChartLineComponent {
   }
 
   ngOnChanges() {
-    if (this.data) {
-      const dateListe = this.data?.map((x) => x.date_obs).reverse();
+    if (this.data && this.selectedDate) {
+      const dateListe = this.data
+        .map((x) => this.dateFormatter(x.date_obs))
+        .reverse();
       const valueList = this.data?.map((x) => x.tmoy).reverse();
 
       this.echartOption = {
         tooltip: {
           trigger: 'axis',
+          formatter: '{c0}C°<br />{b0}',
         },
         grid: {
           left: '30',
@@ -57,6 +64,23 @@ export class ChartLineComponent {
             lineStyle: { width: 1 },
             data: valueList,
             type: 'line',
+            markPoint: {
+              symbol: 'circle',
+              symbolSize: 5,
+              data: [
+                {
+                  name: 'mark',
+                  coord: [
+                    this.dateFormatter(this.selectedDate),
+                    this.data.find(
+                      (x) =>
+                        this.dateFormatter(x.date_obs) ==
+                        this.dateFormatter(this.selectedDate!)
+                    )!.tmoy!,
+                  ],
+                },
+              ],
+            },
             smooth: true,
             symbol: 'none',
             itemStyle: {
@@ -71,7 +95,11 @@ export class ChartLineComponent {
   }
 
   @HostListener('window:resize', ['$event'])
-  onWindowResize(event: Event): void {
+  private onWindowResize(event: Event): void {
     this.myChart?.resize();
+  }
+
+  private dateFormatter(date: Date) {
+    return DateFormater.dateFormatedShortString(date);
   }
 }

@@ -46,10 +46,6 @@ export class TemperatureFacade {
     return this.temperatureDepartmentsState.getDatesOfLoadedTemperaturesDepartments$();
   }
 
-  getDateFormatted(date: Date): string {
-    return this.temperatureDepartmentsState.getDateFormatted(date);
-  }
-
   getTemperatureDepartmentsForDate$(
     date: Date
   ): Observable<TemperatureDepartment[]> {
