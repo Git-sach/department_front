@@ -2,8 +2,15 @@ $padding_anel: 5px;
 
 .control_container {
   height: 10%;
-  margin: 0 12px 0 12px;
-  border-bottom: 1px solid var(--grey_subtle_borders_separators);
+  margin: 0 8px 0 8px;
+  // border-bottom: 1px solid var(--grey_subtle_borders_separators);
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  .slider_date_container {
+    width: 50%;
+  }
+  margin-bottom: 5px;
 }
 
 .panels_container {

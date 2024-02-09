@@ -34,7 +34,12 @@ export class ChartLineComponent {
   }
 
   ngOnChanges() {
-    if (this.data && this.selectedDate) {
+    const tMoyOfselectedDate = this.data?.find(
+      (x) =>
+        this.dateFormatter(x.date_obs) == this.dateFormatter(this.selectedDate!)
+    )?.tmoy;
+
+    if (this.data && this.selectedDate && tMoyOfselectedDate) {
       const dateListe = this.data
         .map((x) => this.dateFormatter(x.date_obs))
         .reverse();
@@ -72,11 +77,7 @@ export class ChartLineComponent {
                   name: 'mark',
                   coord: [
                     this.dateFormatter(this.selectedDate),
-                    this.data.find(
-                      (x) =>
-                        this.dateFormatter(x.date_obs) ==
-                        this.dateFormatter(this.selectedDate!)
-                    )!.tmoy!,
+                    tMoyOfselectedDate,
                   ],
                 },
               ],

@@ -1,6 +1,14 @@
-import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { DateFormater } from 'src/app/shared/utils/date-formater';
 
 @Component({
   selector: 'app-slider-date',
@@ -16,13 +24,35 @@ export class SliderDateComponent {
 
   minTimestamp: number = new Date('01/01/2018').getTime();
   maxTimestamp: number = new Date('01/01/2023').getTime();
-  stapeTimestamp: number = new Date('01/02/1970 01:00:00').getTime();
   initialValue: number = this.maxTimestamp;
+  stapeTimestamp: number = new Date('01/02/1970 01:00:00').getTime();
+
+  public date = String(this.initialValue);
 
   onDateChange() {
-    this.dateEmitter.emit(new Date(+this.rangeInput.nativeElement.value));
+    this.dateEmitter.emit(new Date(+this.date));
   }
 
-  forDetectChange() {
+  get dateFormatted() {
+    return DateFormater.dateFormaterApiString(new Date(+this.date));
+  }
+
+  set dateFormatted(date: string) {
+    //regex qui filtre les dates de 01/01/2018 à 01/01/2023
+    const regex =
+      /^(?:2018|2019|2020|2021|2022)-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|3[01])$/;
+
+    if (regex.test(date)) {
+      this.date = String(new Date(date).getTime());
+      this.onDateChange();
+    }
+  }
+
+  get minDateFormatted() {
+    return DateFormater.dateFormaterApiString(new Date(+this.minTimestamp));
+  }
+
+  get maxDateFormatted() {
+    return DateFormater.dateFormaterApiString(new Date(+this.maxTimestamp));
   }
 }

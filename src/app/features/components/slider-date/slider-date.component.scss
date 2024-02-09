@@ -1,29 +1,60 @@
-input[type="range"] {
-  -webkit-appearance: none;
-  appearance: none;
-  background: transparent;
-  cursor: pointer;
-  width: 15rem;
-  width: 800px;
-}
-
-input[type="range"]::-webkit-slider-runnable-track {
-  background: var(--solid_backgrounds);
-  height: 0.5rem;
-  border-radius: 10px;
-  box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.10) inset;
-}
-
-input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  border-radius: 10px;
-  margin-top: calc((0.5rem/2) - (1rem/2));
-  background-color: var(--app_background);
-  height: 1rem;
-  width: 1rem;
+.slider_date_container {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  gap: 5px;
   border: solid 1px var(--grey_subtle_borders_separators);
-  box-shadow: -1px 1px 4px 0px rgba(0, 0, 0, 0.15) inset;
+  padding: 5px;
+  border-radius: 5px;
+
+  input[type="date"] {
+    border: none;
+    border-right: solid 1px var(--grey_subtle_borders_separators);
+    cursor: pointer;
+    font-size: 1.3rem;
+    padding: 2px 5px 2px 5px;
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 5px;
+    background: transparent;
+    color: var(--grey_low_contrast_text);
+    width: 210px;
+  }
+
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    -webkit-appearance: none;
+    cursor: pointer;
+    display: block;
+    background: url("../../../../assets/calendar-days.svg");
+    background-repeat: no-repeat;
+    opacity: 1;
+  }
+
+  input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+    width: 100%;
+    padding: 0 5px;
+  }
+
+  input[type="range"]::-webkit-slider-runnable-track {
+    background: var(--solid_backgrounds);
+    height: 0.5rem;
+    border-radius: 10px;
+    box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.1) inset;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    border-radius: 10px;
+    margin-top: calc((0.5rem / 2) - (1rem / 2));
+    background-color: var(--app_background);
+    height: 1rem;
+    width: 1rem;
+    border: solid 1px var(--grey_subtle_borders_separators);
+    box-shadow: -1px 1px 4px 0px rgba(0, 0, 0, 0.15) inset;
+  }
 }
-
-

@@ -22,7 +22,7 @@
 
   // panel
   --padding_panel: 20px;
-  --box_shadow_panel: 0px 4px 26px 0px rgba(0, 0, 0, 0.05);
+  --box_shadow_panel: 0px 0px 2px 0px rgba(0, 0, 0, 0.05);
   --border_box_panel: 5px;
 }
 
@@ -62,7 +62,7 @@ body {
 
 .menu {
   height: 100%;
-  width: 200px;
+  width: 0px;
 }
 
 .app_container {
