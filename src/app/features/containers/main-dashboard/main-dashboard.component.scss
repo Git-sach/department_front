@@ -1,16 +1,46 @@
-$padding_anel: 5px;
+$padding_panel: 5px;
 
 .control_container {
-  height: 10%;
-  margin: 0 8px 0 8px;
-  // border-bottom: 1px solid var(--grey_subtle_borders_separators);
+  // height: 10%;
+  padding: 5px;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: flex-end;
+  gap: 10px;
+  .select_temperature_type_container {
+    display: flex;
+    gap: 10px;
+    border: solid 1px var(--grey_subtle_borders_separators);
+    padding: 5px;
+    border-radius: 5px;
+    align-items: center;
+    p {
+      margin: 0;
+      font-size: 1.3rem;
+      padding: 0;
+    }
+    select {
+      border: none;
+      border-left: solid 1px var(--grey_subtle_borders_separators);
+      cursor: pointer;
+      font-size: 1.3rem;
+      padding: 2px 5px 2px 5px;
+      margin: 0;
+      background: transparent;
+      color: var(--grey_low_contrast_text);
+    }
+  }
   .slider_date_container {
     width: 50%;
   }
-  margin-bottom: 5px;
+  .empty_container {
+    border: solid 1px var(--grey_subtle_borders_separators);
+    flex: 1;
+    font-size: 1.3rem;
+    height: 40px;
+    padding: 5px;
+    border-radius: 5px;
+  }
 }
 
 .panels_container {
@@ -22,26 +52,26 @@ $padding_anel: 5px;
     // border: solid 1px rgb(255, 0, 0);
     flex: 4 0 260px;
     height: 65%;
-    padding: $padding_anel;
+    padding: $padding_panel;
   }
 
   .map_france_panel {
     // border: solid 1px black;
     flex: 1 0 45%;
-    padding: $padding_anel;
+    padding: $padding_panel;
   }
 
   .list_departments_panel {
     // border: solid 1px rgb(13, 0, 255);
     flex: 4 0 260px;
-    padding: $padding_anel;
+    padding: $padding_panel;
   }
 
   .chart_panel {
     // border: solid 1px black;
     flex: 1 0 45%;
     height: 35%;
-    padding: $padding_anel;
+    padding: $padding_panel;
   }
 }
 

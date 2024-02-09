@@ -1,4 +1,14 @@
 <div class="control_container">
+  <div class="select_temperature_type_container">
+    <img src="../../../../assets/thermometer-sun.svg" alt="SVG Image" />
+    <p>Températures</p>
+    <select name="temperature_type" id="">
+      <option value="tMax">maxumale</option>
+      <option value="tMoy">moyenne</option>
+      <option value="tMin">minimale</option>
+    </select>
+  </div>
+  <div class="empty_container"></div>
   <div class="slider_date_container">
     <app-slider-date (dateEmitter)="selectDate($event)"></app-slider-date>
   </div>
