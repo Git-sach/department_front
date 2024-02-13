@@ -1,13 +1,15 @@
 export interface Department {
-  id: number,
-  name: string,
-  code: string,
-  prefecture: string | null,
+  id: number;
+  name: string;
+  code: string;
+  prefecture: string | null;
   svg_path: string;
   viewBox00: number | null;
   viewBox01: number | null;
   viewBox10: number | null;
   viewBox11: number | null;
   color?: string;
-  tMoy?: number
+  tmin?: number;
+  tmoy?: number;
+  tmax?: number;
 }

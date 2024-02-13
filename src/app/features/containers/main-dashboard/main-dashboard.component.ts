@@ -14,6 +14,7 @@ import { ListDepartmentsComponent } from '../../components/list-departments/list
 import { SliderDateComponent } from '../../components/slider-date/slider-date.component';
 import { SvgDepartmentsComponent } from '../../components/svg-departments/svg-departments.component';
 import { MainDashboardFacadeService } from '../../facade/main-dashboard-facade.service';
+import { TemperatureType } from '../../states/temperature-departments-state.service';
 
 @Component({
   selector: 'app-main-dashboard',
@@ -32,16 +33,22 @@ import { MainDashboardFacadeService } from '../../facade/main-dashboard-facade.s
 })
 export class MainDashboardComponent implements OnInit, OnDestroy {
   departments$: Observable<Department[]>;
+
   selectedDepartment$: Observable<Department | null>;
+
   selectedDate$: Observable<Date | null>;
 
   departmentTemperatures$: Observable<TemperatureDepartment[]>;
+
   selectedDepartmentTemperature$: Observable<TemperatureDepartment>;
+
   temperaturesForSelectedDepartmentOverThreeMonth$: Observable<
     TemperatureDepartment[]
   >;
 
   departmentsWichTemperatureMoy$: Observable<Department[]>;
+
+  selectedTemperatureType$: Observable<TemperatureType>;
 
   loadTemperaturesSubscription?: Subscription;
 
@@ -60,9 +67,12 @@ export class MainDashboardComponent implements OnInit, OnDestroy {
       this.mainDashboardFacade.getTemperaturesForSelectedDepartmentAndSelectedDateOverThreeMonth$();
 
     this.departmentsWichTemperatureMoy$ =
-      this.mainDashboardFacade.getDepartmentsWichTemperatureMoyForSelectedDate$();
+      this.mainDashboardFacade.getDepartmentsWichTemperaturesForSelectedDate$();
 
     this.selectedDate$ = this.mainDashboardFacade.getSelectedDate$();
+
+    this.selectedTemperatureType$ =
+      this.mainDashboardFacade.getTemperatureType$();
   }
 
   ngOnInit(): void {

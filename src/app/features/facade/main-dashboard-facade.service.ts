@@ -3,6 +3,7 @@ import { Observable, combineLatest, filter, map, switchMap } from 'rxjs';
 import { Department } from 'src/app/shared/interfaces/department.interface';
 import { TemperatureDepartment } from 'src/app/shared/interfaces/temperatureDepartment';
 import { DateFormater } from 'src/app/shared/utils/date-formater';
+import { TemperatureType } from '../states/temperature-departments-state.service';
 import { DateFacade } from './date-facade.service';
 import { DepartmentsFacade } from './departments-facade.service';
 import { TemperatureFacade } from './temperature-facade.service';
@@ -37,6 +38,10 @@ export class MainDashboardFacadeService {
 
   loadTemperaturesForDate(date: Date): void {
     this.temperatureFacade.loadTemperaturesForDate(date);
+  }
+
+  getTemperatureType$(): Observable<TemperatureType> {
+    return this.temperatureFacade.getTemperatureType$();
   }
 
   // DATE ------------------------------------------------------------
@@ -134,12 +139,12 @@ export class MainDashboardFacadeService {
   }
 
   /**
-   * Obtient un Observable de departements avec les températures moyennes pour la date sélectionnée.
-   * Combinant les informations des départements et des températures moy
+   * Obtient un Observable de departements avec les températures pour la date sélectionnée.
+   * Combinant les informations des départements et des températuress
    *
    * @returns Un observable émettant la liste des départements avec les températures moyennes.
    */
-  getDepartmentsWichTemperatureMoyForSelectedDate$(): Observable<Department[]> {
+  getDepartmentsWichTemperaturesForSelectedDate$(): Observable<Department[]> {
     const departments$ = this.getDepartments$();
     const temperatures$ = this.getTemperatureDepartmentsForSelectedDate$();
 
@@ -154,8 +159,11 @@ export class MainDashboardFacadeService {
             (temperatureDepartment) =>
               temperatureDepartment.code_insee_departement === department.code
           );
-          department.tMoy = temperatureDepartment!.tmoy;
+          department.tmoy = temperatureDepartment!.tmoy;
+          department.tmin = temperatureDepartment!.tmin;
+          department.tmax = temperatureDepartment!.tmax;
         });
+
         return departmentsCopy;
       })
     );

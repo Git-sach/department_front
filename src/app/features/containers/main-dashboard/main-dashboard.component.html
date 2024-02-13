@@ -3,7 +3,7 @@
     <img src="../../../../assets/thermometer-sun.svg" alt="SVG Image" />
     <p>Températures</p>
     <select name="temperature_type" id="">
-      <option value="tMax">maxumale</option>
+      <option value="tMax">maximale</option>
       <option value="tMoy">moyenne</option>
       <option value="tMin">minimale</option>
     </select>
@@ -25,9 +25,13 @@
   </div>
   <div class="map_france_panel">
     <div class="panel_container">
+      <!-- on stocke dans la variable "selectedTemperature" la valeur de l'observable selectedTemperatureType 
+        en faisant un *ngIf pour ne pas introduire de null. sinon selectedDepartment peut être de type null -->
       <app-svg-departments
+        *ngIf="selectedTemperatureType$ | async as selectedTemperature"
         [departmentsWichTMoy]="departmentsWichTemperatureMoy$ | async"
         [selectedDepartment]="selectedDepartment$ | async"
+        [selectedTemperatureType]="selectedTemperature"
         (departmentEmitter)="selectDepartment($event)"
       ></app-svg-departments>
     </div>
@@ -44,8 +48,10 @@
   <div class="chart_panel">
     <div class="panel_container">
       <app-chart-line
+        *ngIf="selectedTemperatureType$ | async as selectedTemperature"
         [data]="temperaturesForSelectedDepartmentOverThreeMonth$ | async"
         [selectedDate]="selectedDate$ | async"
+        [selectedTemperatureType]="selectedTemperature"
       ></app-chart-line>
     </div>
   </div>

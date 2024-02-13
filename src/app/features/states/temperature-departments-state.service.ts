@@ -4,12 +4,17 @@ import { TemperatureDepartment } from 'src/app/shared/interfaces/temperatureDepa
 import { TemperatureDepartmentsStorage } from 'src/app/shared/interfaces/temperatureDepartmentsStorage';
 import { DateFormater } from 'src/app/shared/utils/date-formater';
 
+export type TemperatureType = 'tmoy' | 'tmax' | 'tmin';
+
 @Injectable({
   providedIn: 'root',
 })
 export class TemperatureDepartmentsStateService {
   private temperatureDepartments$ =
     new BehaviorSubject<TemperatureDepartmentsStorage>({});
+
+  private temperatureType$: BehaviorSubject<TemperatureType> =
+    new BehaviorSubject<TemperatureType>('tmin');
 
   /**
    * Obtient les départements de température pour une date spécifique.
@@ -47,5 +52,9 @@ export class TemperatureDepartmentsStateService {
     return this.temperatureDepartments$.pipe(
       map((temperatureDepartments) => Object.keys(temperatureDepartments))
     );
+  }
+
+  getTemperatureType$(): Observable<TemperatureType> {
+    return this.temperatureType$.asObservable();
   }
 }

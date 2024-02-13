@@ -2,7 +2,10 @@ import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { TemperatureDepartment } from 'src/app/shared/interfaces/temperatureDepartment';
 import { TemperatureDepartmentsService } from 'src/app/shared/services/api/temperature-departments.service';
-import { TemperatureDepartmentsStateService } from '../states/temperature-departments-state.service';
+import {
+  TemperatureDepartmentsStateService,
+  TemperatureType,
+} from '../states/temperature-departments-state.service';
 
 @Injectable({
   providedIn: 'root',
@@ -52,5 +55,9 @@ export class TemperatureFacade {
     return this.temperatureDepartmentsState.getTemperatureDepartmentsForDate$(
       date
     );
+  }
+
+  getTemperatureType$(): Observable<TemperatureType> {
+    return this.temperatureDepartmentsState.getTemperatureType$();
   }
 }

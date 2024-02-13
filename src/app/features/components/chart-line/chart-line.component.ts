@@ -9,6 +9,7 @@ import {
 import * as echarts from 'echarts';
 import { TemperatureDepartment } from 'src/app/shared/interfaces/temperatureDepartment';
 import { DateFormater } from 'src/app/shared/utils/date-formater';
+import { TemperatureType } from '../../states/temperature-departments-state.service';
 
 @Component({
   selector: 'app-chart-line',
@@ -20,6 +21,7 @@ import { DateFormater } from 'src/app/shared/utils/date-formater';
 export class ChartLineComponent {
   @Input({ required: true }) data: TemperatureDepartment[] | null = null;
   @Input({ required: true }) selectedDate: Date | null = null;
+  @Input({ required: true }) selectedTemperatureType!: TemperatureType;
 
   @ViewChild('chartContainer') chartContainer?: ElementRef;
 
@@ -34,16 +36,25 @@ export class ChartLineComponent {
   }
 
   ngOnChanges() {
-    const tMoyOfselectedDate = this.data?.find(
+    let temperatureOfselectedDate: number = 0;
+
+    const selectedTemperatureDepartment = this.data?.find(
       (x) =>
         this.dateFormatter(x.date_obs) == this.dateFormatter(this.selectedDate!)
-    )?.tmoy;
+    );
 
-    if (this.data && this.selectedDate && tMoyOfselectedDate) {
+    if (selectedTemperatureDepartment) {
+      temperatureOfselectedDate =
+        selectedTemperatureDepartment[this.selectedTemperatureType];
+    }
+
+    if (this.data && this.selectedDate && temperatureOfselectedDate) {
       const dateListe = this.data
         .map((x) => this.dateFormatter(x.date_obs))
         .reverse();
-      const valueList = this.data?.map((x) => x.tmoy).reverse();
+      const valueList = this.data
+        ?.map((x) => x[this.selectedTemperatureType])
+        .reverse();
 
       this.echartOption = {
         tooltip: {
@@ -77,7 +88,7 @@ export class ChartLineComponent {
                   name: 'mark',
                   coord: [
                     this.dateFormatter(this.selectedDate),
-                    tMoyOfselectedDate,
+                    temperatureOfselectedDate,
                   ],
                 },
               ],

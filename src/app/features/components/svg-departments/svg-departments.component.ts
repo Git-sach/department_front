@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { Department } from 'src/app/shared/interfaces/department.interface';
 import { Color } from 'src/app/shared/valueObjects/color';
+import { TemperatureType } from '../../states/temperature-departments-state.service';
 
 @Component({
   selector: 'app-svg-departments',
@@ -26,6 +27,7 @@ export class SvgDepartmentsComponent {
   }
 
   @Input({ required: true }) selectedDepartment: Department | null = null;
+  @Input({ required: true }) selectedTemperatureType!: TemperatureType;
   @Output() departmentEmitter = new EventEmitter<Department>();
 
   public tMax: number = 0;
@@ -48,14 +50,20 @@ export class SvgDepartmentsComponent {
 
   getTemperatureMinOfDepartments(departments: Department[]): number {
     return departments.reduce((acc, current) =>
-      current.tMoy! < acc.tMoy! ? current : acc
-    ).tMoy!;
+      current[this.selectedTemperatureType]! <
+      acc[this.selectedTemperatureType]!
+        ? current
+        : acc
+    )[this.selectedTemperatureType]!;
   }
 
   getTemperatureMaxOfDepartments(departments: Department[]): number {
     return departments.reduce((acc, current) =>
-      current.tMoy! > acc.tMoy! ? current : acc
-    ).tMoy!;
+      current[this.selectedTemperatureType]! >
+      acc[this.selectedTemperatureType]!
+        ? current
+        : acc
+    )[this.selectedTemperatureType]!;
   }
 
   /**
@@ -73,7 +81,7 @@ export class SvgDepartmentsComponent {
 
     departmentsCopy.map((department) => {
       const indexOfGradientColor = this.findNumericValueOfAnalogData(
-        department.tMoy!,
+        department[this.selectedTemperatureType]!,
         this.tMax,
         this.tMin,
         this.numberOfColorsInGradient
