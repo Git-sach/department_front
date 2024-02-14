@@ -20,15 +20,29 @@ import { TemperatureType } from '../../states/temperature-departments-state.serv
 })
 export class SvgDepartmentsComponent {
   @Input({ required: true })
-  set departmentsWichTMoy(departments: Department[] | null) {
+  set departmentsWichTemperatures(departments: Department[] | null) {
     if (departments) {
+      this._departmentsWichTemperatures = departments;
       this.departmentWichColors = this.setColorToDepartments(departments);
     }
   }
 
   @Input({ required: true }) selectedDepartment: Department | null = null;
-  @Input({ required: true }) selectedTemperatureType!: TemperatureType;
+
+  @Input({ required: true })
+  set selectedTemperatureType(temperatureType: TemperatureType) {
+    this._selectedTemperatureType = temperatureType;
+    if (this._departmentsWichTemperatures) {
+      this.departmentWichColors = this.setColorToDepartments(
+        this._departmentsWichTemperatures
+      );
+    }
+  }
+
   @Output() departmentEmitter = new EventEmitter<Department>();
+
+  private _selectedTemperatureType!: TemperatureType;
+  private _departmentsWichTemperatures!: Department[] | null;
 
   public tMax: number = 0;
   public tMin: number = 0;
@@ -50,20 +64,20 @@ export class SvgDepartmentsComponent {
 
   getTemperatureMinOfDepartments(departments: Department[]): number {
     return departments.reduce((acc, current) =>
-      current[this.selectedTemperatureType]! <
-      acc[this.selectedTemperatureType]!
+      current[this._selectedTemperatureType]! <
+      acc[this._selectedTemperatureType]!
         ? current
         : acc
-    )[this.selectedTemperatureType]!;
+    )[this._selectedTemperatureType]!;
   }
 
   getTemperatureMaxOfDepartments(departments: Department[]): number {
     return departments.reduce((acc, current) =>
-      current[this.selectedTemperatureType]! >
-      acc[this.selectedTemperatureType]!
+      current[this._selectedTemperatureType]! >
+      acc[this._selectedTemperatureType]!
         ? current
         : acc
-    )[this.selectedTemperatureType]!;
+    )[this._selectedTemperatureType]!;
   }
 
   /**
@@ -81,7 +95,7 @@ export class SvgDepartmentsComponent {
 
     departmentsCopy.map((department) => {
       const indexOfGradientColor = this.findNumericValueOfAnalogData(
-        department[this.selectedTemperatureType]!,
+        department[this._selectedTemperatureType]!,
         this.tMax,
         this.tMin,
         this.numberOfColorsInGradient

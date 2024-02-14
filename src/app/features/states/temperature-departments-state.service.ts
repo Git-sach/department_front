@@ -14,7 +14,7 @@ export class TemperatureDepartmentsStateService {
     new BehaviorSubject<TemperatureDepartmentsStorage>({});
 
   private temperatureType$: BehaviorSubject<TemperatureType> =
-    new BehaviorSubject<TemperatureType>('tmin');
+    new BehaviorSubject<TemperatureType>('tmax');
 
   /**
    * Obtient les départements de température pour une date spécifique.
@@ -56,5 +56,9 @@ export class TemperatureDepartmentsStateService {
 
   getTemperatureType$(): Observable<TemperatureType> {
     return this.temperatureType$.asObservable();
+  }
+
+  setTemperatureType(temperatureType: TemperatureType) {
+    this.temperatureType$.next(temperatureType);
   }
 }

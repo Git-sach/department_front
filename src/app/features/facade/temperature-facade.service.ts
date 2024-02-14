@@ -60,4 +60,8 @@ export class TemperatureFacade {
   getTemperatureType$(): Observable<TemperatureType> {
     return this.temperatureDepartmentsState.getTemperatureType$();
   }
+
+  setTemperatureType(temperatureType: TemperatureType) {
+    this.temperatureDepartmentsState.setTemperatureType(temperatureType);
+  }
 }

@@ -11,6 +11,7 @@ import { TemperatureDepartment } from 'src/app/shared/interfaces/temperatureDepa
 import { ChartLineComponent } from '../../components/chart-line/chart-line.component';
 import { DetailsDepartmentComponent } from '../../components/details-department/details-department.component';
 import { ListDepartmentsComponent } from '../../components/list-departments/list-departments.component';
+import { SelectTemperatureTypeComponent } from '../../components/select-temperature-type/select-temperature-type.component';
 import { SliderDateComponent } from '../../components/slider-date/slider-date.component';
 import { SvgDepartmentsComponent } from '../../components/svg-departments/svg-departments.component';
 import { MainDashboardFacadeService } from '../../facade/main-dashboard-facade.service';
@@ -26,6 +27,7 @@ import { TemperatureType } from '../../states/temperature-departments-state.serv
     DetailsDepartmentComponent,
     SliderDateComponent,
     ChartLineComponent,
+    SelectTemperatureTypeComponent,
   ],
   templateUrl: './main-dashboard.component.html',
   styleUrls: ['./main-dashboard.component.scss'],
@@ -94,5 +96,9 @@ export class MainDashboardComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.loadTemperaturesSubscription?.unsubscribe();
+  }
+
+  selectTemperatureType(temperatureType: TemperatureType): void {
+    this.mainDashboardFacade.setTemperatureType(temperatureType);
   }
 }

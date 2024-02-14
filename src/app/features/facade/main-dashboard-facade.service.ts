@@ -44,6 +44,10 @@ export class MainDashboardFacadeService {
     return this.temperatureFacade.getTemperatureType$();
   }
 
+  setTemperatureType(temperatureType: TemperatureType) {
+    this.temperatureFacade.setTemperatureType(temperatureType);
+  }
+
   // DATE ------------------------------------------------------------
 
   getSelectedDate$(): Observable<Date> {

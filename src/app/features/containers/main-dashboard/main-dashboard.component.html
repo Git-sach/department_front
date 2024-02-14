@@ -1,12 +1,10 @@
 <div class="control_container">
   <div class="select_temperature_type_container">
-    <img src="../../../../assets/thermometer-sun.svg" alt="SVG Image" />
-    <p>Températures</p>
-    <select name="temperature_type" id="">
-      <option value="tMax">maximale</option>
-      <option value="tMoy">moyenne</option>
-      <option value="tMin">minimale</option>
-    </select>
+    <app-select-temperature-type
+      *ngIf="selectedTemperatureType$ | async as selectedTemperatureType"
+      [selectedTemperatureType]="selectedTemperatureType"
+      (selectEmitter)="selectTemperatureType($event)"
+    ></app-select-temperature-type>
   </div>
   <div class="empty_container"></div>
   <div class="slider_date_container">
@@ -26,12 +24,12 @@
   <div class="map_france_panel">
     <div class="panel_container">
       <!-- on stocke dans la variable "selectedTemperature" la valeur de l'observable selectedTemperatureType 
-        en faisant un *ngIf pour ne pas introduire de null. sinon selectedDepartment peut être de type null -->
+        en faisant un *ngIf pour ne pas introduire de null. sinon selectedTemperatureType peut être de type null -->
       <app-svg-departments
-        *ngIf="selectedTemperatureType$ | async as selectedTemperature"
-        [departmentsWichTMoy]="departmentsWichTemperatureMoy$ | async"
+        *ngIf="selectedTemperatureType$ | async as selectedTemperatureType"
+        [departmentsWichTemperatures]="departmentsWichTemperatureMoy$ | async"
         [selectedDepartment]="selectedDepartment$ | async"
-        [selectedTemperatureType]="selectedTemperature"
+        [selectedTemperatureType]="selectedTemperatureType"
         (departmentEmitter)="selectDepartment($event)"
       ></app-svg-departments>
     </div>
@@ -48,10 +46,10 @@
   <div class="chart_panel">
     <div class="panel_container">
       <app-chart-line
-        *ngIf="selectedTemperatureType$ | async as selectedTemperature"
+        *ngIf="selectedTemperatureType$ | async as selectedTemperatureType"
         [data]="temperaturesForSelectedDepartmentOverThreeMonth$ | async"
         [selectedDate]="selectedDate$ | async"
-        [selectedTemperatureType]="selectedTemperature"
+        [selectedTemperatureType]="selectedTemperatureType"
       ></app-chart-line>
     </div>
   </div>

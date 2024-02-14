@@ -1,0 +1,26 @@
+<div class="container">
+  <img src="../../../../assets/thermometer-sun.svg" alt="SVG Image" />
+  <p>Températures</p>
+
+  <div class="select_container">
+    <button
+      #selectInput
+      (click)="onClickSelect()"
+      class="select"
+      name="select"
+      value="options"
+    >
+      options
+    </button>
+    <div #optionsBox class="options">
+      <p
+        class="option"
+        *ngFor="let option of options; let index = index"
+        (click)="onClickOption(index)"
+        [ngClass]="option.active ? 'active' : ''"
+      >
+        {{ option.name }}
+      </p>
+    </div>
+  </div>
+</div>
