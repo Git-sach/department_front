@@ -7,10 +7,16 @@ $legende_bar_width: 5px;
   position: relative;
   justify-content: center;
   position: relative;
-  img {
+  .expand {
+    cursor: pointer;
     position: absolute;
+    width: 25px;
     top: 0px;
     right: 0px;
+    transition: width 0.3s;
+    &:hover {
+      width: 30px;
+    }
   }
   .svg_container {
     svg {
@@ -22,8 +28,9 @@ $legende_bar_width: 5px;
       path.selected,
       path:hover {
         stroke: var(--app_background);
-        stroke-width: 3px;
+        stroke-width: 1px;
         transition: $transition_hover_selected;
+        filter: url(#inner-shadow);
       }
     }
   }

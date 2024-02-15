@@ -1,7 +1,23 @@
 <div class="container">
-  <img src="../../../../assets/expand.svg" alt="SVG Image" />
+  <img class="expand" src="../../../../assets/expand.svg" alt="SVG Image" />
   <div class="svg_container">
     <svg viewBox="0 0 612.3844 584.36005">
+      <defs>
+        <filter id="inner-shadow" x="-50%" y="-50%" width="200%" height="200%">
+          <feComponentTransfer in="SourceAlpha">
+            <feFuncA type="table" tableValues="1 0" />
+          </feComponentTransfer>
+          <feGaussianBlur stdDeviation="10" />
+          <feOffset dx="0" dy="0" result="offsetblur" />
+          <feFlood flood-color="black" result="color" />
+          <feComposite in2="offsetblur" operator="in" />
+          <feComposite in2="SourceAlpha" operator="in" />
+          <feMerge>
+            <feMergeNode in="SourceGraphic" />
+            <feMergeNode />
+          </feMerge>
+        </filter>
+      </defs>
       <g>
         <path
           *ngFor="let department of departmentWichColors"
