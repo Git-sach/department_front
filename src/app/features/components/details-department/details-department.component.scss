@@ -53,40 +53,65 @@
     .temperatures {
       display: flex;
       justify-content: space-between;
+      align-items: center;
+      height: 30px;
       svg {
         height: 14px;
       }
       .temperature {
         display: flex;
+        align-items: center;
         gap: 2px;
+        cursor: pointer;
         p {
           margin: 0 0 0 0;
           font-size: 0.9em;
+          transition: 0.2s;
         }
-      }
 
-      .max {
-        svg {
-          fill: #f76b15;
+        &.tmax {
+          svg {
+            fill: #f76b15;
+          }
+          p {
+            color: #f76b15;
+          }
         }
-        p {
-          color: #f76b15;
+        &.tmoy {
+          svg {
+            fill: #a5470e;
+          }
+          p {
+            color: #a5470e;
+          }
         }
-      }
-      .moy {
-        svg {
-          fill: #a5470e;
+        &.tmin {
+          svg {
+            fill: #502206;
+          }
+          p {
+            color: #502206;
+          }
         }
-        p {
-          color: #a5470e;
+
+        &.active {
+          p {
+            font-size: 1.3rem;
+          }
+
+          svg {
+            height: 18px;
+          }
         }
-      }
-      .min {
-        svg {
-          fill: #502206;
-        }
-        p {
-          color: #502206;
+
+        &:hover {
+          p {
+            font-size: 1.3rem;
+          }
+
+          svg {
+            height: 18px;
+          }
         }
       }
     }

@@ -19,8 +19,15 @@
       <p>Préfecture: {{ department?.prefecture }}</p>
     </div>
 
-    <div class="temperatures">
-      <div class="temperature max">
+    <div #temperatureElements class="temperatures">
+      <div
+        [ngClass]="
+          selectedTemperatureType === 'tmax'
+            ? 'temperature tmax active'
+            : 'temperature tmax'
+        "
+        (click)="onClickTemperature('tmax')"
+      >
         <svg
           width="9"
           height="13"
@@ -34,7 +41,14 @@
         </svg>
         <p>{{ temperature?.tmax | number : "1.2-2" }}C°</p>
       </div>
-      <div class="temperature moy">
+      <div
+        [ngClass]="
+          selectedTemperatureType === 'tmoy'
+            ? 'temperature tmoy active'
+            : 'temperature tmoy'
+        "
+        (click)="onClickTemperature('tmoy')"
+      >
         <svg
           width="13"
           height="8"
@@ -48,7 +62,14 @@
         </svg>
         <p>{{ temperature?.tmoy | number : "1.2-2" }}C°</p>
       </div>
-      <div class="temperature min">
+      <div
+        [ngClass]="
+          selectedTemperatureType === 'tmin'
+            ? 'temperature tmin active'
+            : 'temperature tmin'
+        "
+        (click)="onClickTemperature('tmin')"
+      >
         <svg
           width="9"
           height="14"

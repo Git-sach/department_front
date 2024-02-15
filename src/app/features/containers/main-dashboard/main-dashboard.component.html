@@ -15,8 +15,11 @@
   <div class="department_detail_panel">
     <div class="panel_container">
       <app-details-department
+        *ngIf="selectedTemperatureType$ | async as selectedTemperatureType"
+        [selectedTemperatureType]="selectedTemperatureType"
         [department]="selectedDepartment$ | async"
         [temperature]="selectedDepartmentTemperature$ | async"
+        (temperatureTypeEmitter)="selectTemperatureType($event)"
       >
       </app-details-department>
     </div>

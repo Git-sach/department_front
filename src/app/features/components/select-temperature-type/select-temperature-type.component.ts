@@ -29,8 +29,8 @@ export class SelectTemperatureTypeComponent implements AfterViewInit {
   @Output() selectEmitter = new EventEmitter<TemperatureType>();
 
   public options = [
-    { name: 'moyenne', value: 'tmoy', active: false },
     { name: 'maximale', value: 'tmax', active: false },
+    { name: 'moyenne', value: 'tmoy', active: false },
     { name: 'minimale', value: 'tmin', active: false },
   ];
 
@@ -47,6 +47,9 @@ export class SelectTemperatureTypeComponent implements AfterViewInit {
       );
 
       this.selectInput.nativeElement.innerHTML = selectedOption!.name;
+      this.options.forEach((option) => {
+        option.active = false;
+      });
       selectedOption!.active = true;
     }
   }
