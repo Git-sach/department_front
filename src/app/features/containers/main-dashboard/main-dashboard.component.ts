@@ -94,11 +94,15 @@ export class MainDashboardComponent implements OnInit, OnDestroy {
     this.mainDashboardFacade.setSelectedDate(date);
   }
 
-  ngOnDestroy(): void {
-    this.loadTemperaturesSubscription?.unsubscribe();
-  }
-
   selectTemperatureType(temperatureType: TemperatureType): void {
     this.mainDashboardFacade.setTemperatureType(temperatureType);
+  }
+
+  selectNextPreviousDeparment(direction: 'next' | 'previous') {
+    this.mainDashboardFacade.selectNextPreviousDeparment(direction);
+  }
+
+  ngOnDestroy(): void {
+    this.loadTemperaturesSubscription?.unsubscribe();
   }
 }

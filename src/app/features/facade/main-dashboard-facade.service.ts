@@ -34,6 +34,10 @@ export class MainDashboardFacadeService {
     this.departmentsFacade.setSelectedDepartment(department);
   }
 
+  selectNextPreviousDeparment(direction: 'next' | 'previous') {
+    this.departmentsFacade.selectNextPreviousDeparment(direction);
+  }
+
   // TEMPERATURE -----------------------------------------------------
 
   loadTemperaturesForDate(date: Date): void {

@@ -27,6 +27,9 @@ export class DetailsDepartmentComponent {
   @Input({ required: true }) selectedTemperatureType: TemperatureType;
 
   @Output() temperatureTypeEmitter = new EventEmitter<TemperatureType>();
+  @Output() nextPreviousDepartmentEmmitter = new EventEmitter<
+    'next' | 'previous'
+  >();
 
   @ViewChild('temperatureElements') temperatureElements!: ElementRef;
 
@@ -40,5 +43,9 @@ export class DetailsDepartmentComponent {
 
   onClickTemperature(temperatureType: TemperatureType) {
     this.temperatureTypeEmitter.emit(temperatureType as TemperatureType);
+  }
+
+  onClickNextPrevious(direction: 'next' | 'previous') {
+    this.nextPreviousDepartmentEmmitter.emit(direction);
   }
 }

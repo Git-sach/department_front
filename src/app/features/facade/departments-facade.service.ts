@@ -43,4 +43,8 @@ export class DepartmentsFacade {
   setSelectedDepartment(department: Department): void {
     this.departmentsState.setSelectedDepartment(department);
   }
+
+  selectNextPreviousDeparment(direction: 'next' | 'previous') {
+    this.departmentsState.selectNextPreviousDeparment(direction);
+  }
 }

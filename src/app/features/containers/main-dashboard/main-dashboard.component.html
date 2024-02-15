@@ -20,6 +20,7 @@
         [department]="selectedDepartment$ | async"
         [temperature]="selectedDepartmentTemperature$ | async"
         (temperatureTypeEmitter)="selectTemperatureType($event)"
+        (nextPreviousDepartmentEmmitter)="selectNextPreviousDeparment($event)"
       >
       </app-details-department>
     </div>
