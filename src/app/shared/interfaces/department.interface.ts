@@ -8,6 +8,7 @@ export interface Department {
   viewBox01: number | null;
   viewBox10: number | null;
   viewBox11: number | null;
+  region: string;
   color?: string;
   tmin?: number;
   tmoy?: number;

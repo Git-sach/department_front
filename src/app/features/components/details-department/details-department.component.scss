@@ -61,17 +61,24 @@
       .temperature {
         display: flex;
         align-items: center;
-        gap: 2px;
+        gap: 1px;
         cursor: pointer;
         p {
           margin: 0 0 0 0;
-          font-size: 0.9em;
+          font-size: 0.8em;
           transition: 0.2s;
+        }
+        svg {
+          height: 12;
+          transition: 0.2s;
+          path {
+            stroke-width: 1.5;
+          }
         }
 
         &.tmax {
           svg {
-            fill: #f76b15;
+            stroke: #f76b15;
           }
           p {
             color: #f76b15;
@@ -79,7 +86,7 @@
         }
         &.tmoy {
           svg {
-            fill: #a5470e;
+            stroke: #a5470e;
           }
           p {
             color: #a5470e;
@@ -87,7 +94,7 @@
         }
         &.tmin {
           svg {
-            fill: #502206;
+            stroke: #502206;
           }
           p {
             color: #502206;
@@ -96,21 +103,21 @@
 
         &.active {
           p {
-            font-size: 1.3rem;
+            font-size: 1.1rem;
           }
 
           svg {
-            height: 18px;
+            height: 16px;
           }
         }
 
         &:hover {
           p {
-            font-size: 1.3rem;
+            font-size: 1.1rem;
           }
 
           svg {
-            height: 18px;
+            height: 16px;
           }
         }
       }
