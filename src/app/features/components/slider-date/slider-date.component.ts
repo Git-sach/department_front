@@ -4,6 +4,7 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  Input,
   Output,
   ViewChild,
 } from '@angular/core';
@@ -19,15 +20,17 @@ import { DateFormater } from 'src/app/shared/utils/date-formater';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SliderDateComponent {
+  @Input({ required: true }) set selectedDate(date: Date | null) {
+    this.date = String(date?.getTime());
+  }
   @Output() dateEmitter = new EventEmitter<Date>();
   @ViewChild('rangeInput') rangeInput!: ElementRef;
 
   minTimestamp: number = new Date('01/01/2018').getTime();
   maxTimestamp: number = new Date('01/01/2023').getTime();
-  initialValue: number = this.maxTimestamp;
   stapeTimestamp: number = new Date('01/02/1970 01:00:00').getTime();
 
-  public date = String(this.initialValue);
+  public date: string;
 
   onDateChange() {
     this.dateEmitter.emit(new Date(+this.date));

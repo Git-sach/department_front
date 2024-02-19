@@ -2,8 +2,10 @@ import { CommonModule } from '@angular/common';
 import {
   Component,
   ElementRef,
+  EventEmitter,
   HostListener,
   Input,
+  Output,
   ViewChild,
 } from '@angular/core';
 import * as echarts from 'echarts';
@@ -23,6 +25,8 @@ export class ChartLineComponent {
   @Input({ required: true }) selectedDate: Date | null = null;
   @Input({ required: true }) selectedTemperatureType!: TemperatureType;
 
+  @Output() dateEmitter = new EventEmitter();
+
   @ViewChild('chartContainer') chartContainer?: ElementRef;
 
   private myChart?: echarts.ECharts;
@@ -31,7 +35,7 @@ export class ChartLineComponent {
   ngAfterViewInit(): void {
     this.myChart = echarts.init(this.chartContainer?.nativeElement);
     if (this.echartOption) {
-      this.myChart?.setOption(this.echartOption);
+      this.myChart.setOption(this.echartOption);
     }
   }
 
@@ -49,12 +53,8 @@ export class ChartLineComponent {
     }
 
     if (this.data && this.selectedDate && temperatureOfselectedDate) {
-      const dateListe = this.data
-        .map((x) => this.dateFormatter(x.date_obs))
-        .reverse();
-      const valueList = this.data
-        ?.map((x) => x[this.selectedTemperatureType])
-        .reverse();
+      const dateListe = this.data.map((x) => this.dateFormatter(x.date_obs));
+      const valueList = this.data?.map((x) => x[this.selectedTemperatureType]);
 
       this.echartOption = {
         tooltip: {
@@ -77,6 +77,8 @@ export class ChartLineComponent {
         },
         series: [
           {
+            id: 1,
+            triggerLineEvent: true,
             lineStyle: { width: 1 },
             data: valueList,
             type: 'line',
@@ -103,6 +105,16 @@ export class ChartLineComponent {
       };
 
       this.myChart?.setOption(this.echartOption);
+
+      this.myChart!.on('click', (e) => {
+        const mouseX = e.event!.offsetX;
+
+        const pointInGrid = this.myChart!.convertFromPixel({ seriesIndex: 0 }, [
+          mouseX,
+        ]);
+        const xValue = pointInGrid[0];
+        this.dateEmitter.emit(this.data![xValue].date_obs);
+      });
     }
   }
 
