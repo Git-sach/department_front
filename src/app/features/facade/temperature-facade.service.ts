@@ -42,7 +42,7 @@ export class TemperatureFacade {
         date1,
         date2
       )
-      .pipe(map((x) => x.results));
+      .pipe(map((x) => x.results.reverse()));
   }
 
   getDatesOfLoadedTemperaturesDepartments$() {

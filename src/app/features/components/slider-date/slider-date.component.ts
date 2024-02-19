@@ -27,7 +27,9 @@ export class SliderDateComponent {
   @ViewChild('rangeInput') rangeInput!: ElementRef;
 
   minTimestamp: number = new Date('01/01/2018').getTime();
-  maxTimestamp: number = new Date('01/01/2023').getTime();
+  maxTimestamp: number = new Date(
+    new Date().setMonth(new Date().getMonth() - 1)
+  ).getTime();
   stapeTimestamp: number = new Date('01/02/1970 01:00:00').getTime();
 
   public date: string;
