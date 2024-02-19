@@ -30,8 +30,31 @@
   </div>
   <div class="map_france_panel">
     <div class="panel_container">
+      <img
+        (click)="toogleExpandMapPanel()"
+        class="expand"
+        src="../../../../assets/expand.svg"
+        alt="SVG Image"
+      />
       <!-- on stocke dans la variable "selectedTemperature" la valeur de l'observable selectedTemperatureType 
         en faisant un *ngIf pour ne pas introduire de null. sinon selectedTemperatureType peut être de type null -->
+      <app-svg-departments
+        *ngIf="selectedTemperatureType$ | async as selectedTemperatureType"
+        [departmentsWichTemperatures]="departmentsWichTemperatureMoy$ | async"
+        [selectedDepartment]="selectedDepartment$ | async"
+        [selectedTemperatureType]="selectedTemperatureType"
+        (departmentEmitter)="selectDepartment($event)"
+      ></app-svg-departments>
+    </div>
+  </div>
+  <div *ngIf="mapPanelIsExpanded" class="map_france_panel expanded">
+    <div class="panel_container">
+      <img
+        (click)="toogleExpandMapPanel()"
+        class="expand"
+        src="../../../../assets/shrink.svg"
+        alt="SVG Image"
+      />
       <app-svg-departments
         *ngIf="selectedTemperatureType$ | async as selectedTemperatureType"
         [departmentsWichTemperatures]="departmentsWichTemperatureMoy$ | async"

@@ -4,6 +4,7 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   Output,
 } from '@angular/core';
 import { Department } from 'src/app/shared/interfaces/department.interface';
@@ -18,31 +19,14 @@ import { TemperatureType } from '../../states/temperature-departments-state.serv
   styleUrls: ['./svg-departments.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SvgDepartmentsComponent {
-  @Input({ required: true })
-  set departmentsWichTemperatures(departments: Department[] | null) {
-    if (departments) {
-      this._departmentsWichTemperatures = departments;
-      this.departmentWichColors = this.setColorToDepartments(departments);
-    }
-  }
+export class SvgDepartmentsComponent implements OnChanges {
+  @Input({ required: true }) departmentsWichTemperatures: Department[] | null;
 
   @Input({ required: true }) selectedDepartment: Department | null = null;
 
-  @Input({ required: true })
-  set selectedTemperatureType(temperatureType: TemperatureType) {
-    this._selectedTemperatureType = temperatureType;
-    if (this._departmentsWichTemperatures) {
-      this.departmentWichColors = this.setColorToDepartments(
-        this._departmentsWichTemperatures
-      );
-    }
-  }
+  @Input({ required: true }) selectedTemperatureType: TemperatureType;
 
   @Output() departmentEmitter = new EventEmitter<Department>();
-
-  private _selectedTemperatureType!: TemperatureType;
-  private _departmentsWichTemperatures!: Department[] | null;
 
   public tMax: number = 0;
   public tMin: number = 0;
@@ -58,26 +42,35 @@ export class SvgDepartmentsComponent {
     this.numberOfColorsInGradient
   );
 
+  // Obligé de passer pas un onChange car l'opération dépend de 2 inputs
+  ngOnChanges(): void {
+    if (this.departmentsWichTemperatures && this.selectedTemperatureType) {
+      this.departmentWichColors = this.setColorToDepartments(
+        this.departmentsWichTemperatures
+      );
+    }
+  }
+
   selectDepartment(department: Department) {
     this.departmentEmitter.emit(department);
   }
 
   getTemperatureMinOfDepartments(departments: Department[]): number {
     return departments.reduce((acc, current) =>
-      current[this._selectedTemperatureType]! <
-      acc[this._selectedTemperatureType]!
+      current[this.selectedTemperatureType]! <
+      acc[this.selectedTemperatureType]!
         ? current
         : acc
-    )[this._selectedTemperatureType]!;
+    )[this.selectedTemperatureType]!;
   }
 
   getTemperatureMaxOfDepartments(departments: Department[]): number {
     return departments.reduce((acc, current) =>
-      current[this._selectedTemperatureType]! >
-      acc[this._selectedTemperatureType]!
+      current[this.selectedTemperatureType]! >
+      acc[this.selectedTemperatureType]!
         ? current
         : acc
-    )[this._selectedTemperatureType]!;
+    )[this.selectedTemperatureType]!;
   }
 
   /**
@@ -95,11 +88,12 @@ export class SvgDepartmentsComponent {
 
     departmentsCopy.map((department) => {
       const indexOfGradientColor = this.findNumericValueOfAnalogData(
-        department[this._selectedTemperatureType]!,
+        department[this.selectedTemperatureType]!,
         this.tMax,
         this.tMin,
         this.numberOfColorsInGradient
       );
+
       const color = `#${this.gradientOfColor[indexOfGradientColor].valueHexa}`;
 
       department.color = color;

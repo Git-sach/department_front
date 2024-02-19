@@ -54,6 +54,8 @@ export class MainDashboardComponent implements OnInit, OnDestroy {
 
   loadTemperaturesSubscription?: Subscription;
 
+  mapPanelIsExpanded: boolean = false;
+
   constructor(private mainDashboardFacade: MainDashboardFacadeService) {
     this.departments$ = mainDashboardFacade.getDepartments$();
 
@@ -100,6 +102,10 @@ export class MainDashboardComponent implements OnInit, OnDestroy {
 
   selectNextPreviousDeparment(direction: 'next' | 'previous') {
     this.mainDashboardFacade.selectNextPreviousDeparment(direction);
+  }
+
+  toogleExpandMapPanel() {
+    this.mapPanelIsExpanded = !this.mapPanelIsExpanded;
   }
 
   ngOnDestroy(): void {

@@ -36,6 +36,18 @@ $padding_panel: 5px;
   display: flex;
   flex-wrap: wrap;
 
+  .expand {
+    cursor: pointer;
+    position: absolute;
+    width: 25px;
+    top: $padding_panel;
+    right: $padding_panel;
+    transition: width 0.3s;
+    &:hover {
+      width: 30px;
+    }
+  }
+
   .department_detail_panel {
     // border: solid 1px rgb(255, 0, 0);
     flex: 4 0 260px;
@@ -47,6 +59,15 @@ $padding_panel: 5px;
     // border: solid 1px black;
     flex: 1 0 45%;
     padding: $padding_panel;
+
+    &.expanded {
+      position: absolute;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 100vw;
+    }
   }
 
   .list_departments_panel {

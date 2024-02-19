@@ -7,17 +7,6 @@ $legende_bar_width: 5px;
   position: relative;
   justify-content: center;
   position: relative;
-  .expand {
-    cursor: pointer;
-    position: absolute;
-    width: 25px;
-    top: 0px;
-    right: 0px;
-    transition: width 0.3s;
-    &:hover {
-      width: 30px;
-    }
-  }
   .svg_container {
     svg {
       height: 100%;
@@ -38,7 +27,7 @@ $legende_bar_width: 5px;
     position: absolute;
     bottom: 0;
     left: 0;
-    height: 150px;
+    height: 50%;
     width: 100px;
     display: flex;
     gap: 5px;
