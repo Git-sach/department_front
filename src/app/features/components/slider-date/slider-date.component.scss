@@ -18,7 +18,8 @@
     gap: 5px;
     background: transparent;
     color: var(--grey_low_contrast_text);
-    width: 210px;
+    width: max-content;
+    flex-shrink: 0;
   }
 
   input[type="date"]::-webkit-calendar-picker-indicator {
@@ -37,6 +38,7 @@
     cursor: pointer;
     width: 100%;
     padding: 0 5px;
+    flex-shrink: 1;
   }
 
   input[type="range"]::-webkit-slider-runnable-track {

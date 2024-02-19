@@ -54,10 +54,6 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      height: 30px;
-      svg {
-        height: 14px;
-      }
       .temperature {
         display: flex;
         align-items: center;
@@ -69,7 +65,7 @@
           transition: 0.2s;
         }
         svg {
-          height: 12;
+          height: 12px;
           transition: 0.2s;
           path {
             stroke-width: 1.5;
@@ -101,7 +97,8 @@
           }
         }
 
-        &.active {
+        &.active,
+        &:hover {
           p {
             font-size: 1.1rem;
           }
@@ -110,14 +107,60 @@
             height: 16px;
           }
         }
+      }
+    }
+  }
+}
 
-        &:hover {
+@media screen and (max-width: 730px) {
+  .container {
+    .informations_container {
+      .temperatures {
+        .temperature {
           p {
-            font-size: 1.1rem;
+            font-size: 1.4rem;
+          }
+          svg {
+            height: 18px;
           }
 
+          &.active,
+          &:hover {
+            p {
+              font-size: 2rem;
+            }
+
+            svg {
+              height: 32px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .container {
+    .informations_container {
+      .temperatures {
+        .temperature {
+          p {
+            font-size: 0.8em;
+          }
           svg {
-            height: 16px;
+            height: 12px;
+          }
+
+          &.active,
+          &:hover {
+            p {
+              font-size: 1.1rem;
+            }
+
+            svg {
+              height: 16px;
+            }
           }
         }
       }

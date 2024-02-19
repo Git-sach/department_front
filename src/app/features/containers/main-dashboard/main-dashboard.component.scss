@@ -5,17 +5,19 @@ $padding_panel: 5px;
   padding: 5px;
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
+  // align-items: flex-end;
   gap: 10px;
   .select_temperature_type_container {
     border: solid 1px var(--grey_subtle_borders_separators);
     box-shadow: var(--box_shadow_panel);
     border-radius: 5px;
+    width: min-content;
   }
   .slider_date_container {
     box-shadow: var(--box_shadow_panel);
     border-radius: 5px;
     width: 50%;
+    flex-shrink: 0;
   }
   .empty_container {
     border: solid 1px var(--grey_subtle_borders_separators);
@@ -25,6 +27,7 @@ $padding_panel: 5px;
     padding: 5px;
     border-radius: 5px;
     box-shadow: var(--box_shadow_panel);
+    flex-shrink: 1;
   }
 }
 
@@ -71,24 +74,34 @@ $padding_panel: 5px;
   position: relative;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 730px) {
+  .control_container {
+    flex-direction: column;
+    .slider_date_container {
+      width: 100%;
+    }
+    .empty_container {
+      display: none;
+    }
+  }
   .panels_container {
     .department_detail_panel {
-      height: auto;
+      height: 80vh;
       flex: 1 0 100%;
     }
 
     .map_france_panel {
-      // border: solid 1px black;
+      // height: 400px;
       flex: 1 0 100%;
     }
 
     .list_departments_panel {
+      height: 100vh;
       flex: 1 0 100%;
     }
 
-    .courbe_panel {
-      height: auto;
+    .chart_panel {
+      height: 60vh;
       flex: 1 0 100%;
     }
   }

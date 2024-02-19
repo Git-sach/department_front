@@ -73,3 +73,13 @@ $legende_bar_width: 5px;
     }
   }
 }
+
+@media screen and (max-width: 730px) {
+  .container {
+    .svg_container {
+      svg {
+        width: 100%;
+      }
+    }
+  }
+}
